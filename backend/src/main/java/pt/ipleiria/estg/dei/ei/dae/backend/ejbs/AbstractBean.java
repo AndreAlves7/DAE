@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.ei.dae.backend;
+package pt.ipleiria.estg.dei.ei.dae.backend.ejbs;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
