@@ -8,10 +8,7 @@ import pt.ipleiria.estg.dei.ei.dae.backend.enums.UserType;
 @Entity
 @Getter
 @Setter
-public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class UserEntity extends AbstractEntity{
 
     @Column(nullable = false, unique = true)
     private String userName;
