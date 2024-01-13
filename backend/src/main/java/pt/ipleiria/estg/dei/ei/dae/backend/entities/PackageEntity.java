@@ -8,8 +8,6 @@ import lombok.Setter;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageMaterialType;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageType;
 
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
