@@ -3,8 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.backend.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import pt.ipleiria.estg.dei.ei.dae.backend.entities.orders.OrderEntity;
-import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensor;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageMaterialType;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageType;
 
@@ -15,6 +14,9 @@ import java.util.List;
 @Setter
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class PackageEntity extends AbstractEntity {
+
+    @Column
+    private String code;
 
     @Enumerated(EnumType.STRING)
     private PackageMaterialType packageMaterial;
@@ -37,5 +39,5 @@ public class PackageEntity extends AbstractEntity {
     private PackageEntity packagesForTransportEntity;
 
     @OneToMany(mappedBy = "packageEntity")
-    private List<PackageSensor> joinTable;
+    private List<PackageSensorEntity> joinTable;
 }

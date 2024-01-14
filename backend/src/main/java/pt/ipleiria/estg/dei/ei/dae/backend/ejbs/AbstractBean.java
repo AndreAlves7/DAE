@@ -5,7 +5,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
 
 import java.util.List;
 
@@ -18,8 +20,8 @@ public abstract class AbstractBean<T> {
         this.entityClass = entityClass;
     }
 
-    @PersistenceContext(unitName = "yourPersistenceUnit")
-    private EntityManager em;
+    @PersistenceContext
+    protected EntityManager em;
 
     protected EntityManager getEntityManager() {
         return em;
@@ -41,11 +43,26 @@ public abstract class AbstractBean<T> {
         return em.createQuery(all).getResultList();
     }
 
+    public List<T> findAllById(List<Long> ids) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+        Root<T> root = cq.from(entityClass);
+
+        Predicate idPredicate = root.get("id").in(ids);
+        cq.where(idPredicate);
+
+        return em.createQuery(cq).getResultList();
+    }
+
     public T update(T entity) {
         return em.merge(entity);
     }
 
-    public void remove(T entity) {
-        em.remove(em.merge(entity));
+
+    public void delete(Long id) {
+        T entity = find(id);
+        if (entity != null) {
+            em.remove(entity);
+        }
     }
 }
