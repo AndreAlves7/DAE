@@ -9,6 +9,11 @@ public class PackageBean extends AbstractBean<PackageEntity> {
         super(entityClass);
     }
 
+    @Override
+    public PackageEntity update(PackageEntity entity) {
+        return null;
+    }
+
     @EJB
     private ProductBean productBean;
 

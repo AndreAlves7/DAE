@@ -6,4 +6,9 @@ public class ProductBean extends AbstractBean<ProductEntity>{
     public ProductBean(Class<ProductEntity> entityClass) {
         super(entityClass);
     }
+
+    @Override
+    public ProductEntity update(ProductEntity entity) {
+        return null;
+    }
 }

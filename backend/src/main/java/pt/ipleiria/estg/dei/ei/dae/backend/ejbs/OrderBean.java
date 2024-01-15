@@ -11,6 +11,11 @@ public class OrderBean extends AbstractBean<OrderEntity>{
         super(entityClass);
     }
 
+    @Override
+    public OrderEntity update(OrderEntity entity) {
+        return null;
+    }
+
     @EJB
     private PackageBean packageBean;
 
