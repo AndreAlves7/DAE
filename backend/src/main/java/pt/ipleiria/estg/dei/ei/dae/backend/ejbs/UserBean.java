@@ -8,4 +8,11 @@ public class UserBean extends AbstractBean<UserEntity> {
     public UserBean(Class<UserEntity> entityClass) {
         super(entityClass);
     }
+
+    //findOrFail(getUsername(token))
+    public UserEntity findOrFail(String username){
+
+
+        return new UserEntity();
+    }
 }
