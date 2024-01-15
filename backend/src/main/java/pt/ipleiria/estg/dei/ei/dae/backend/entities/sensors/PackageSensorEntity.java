@@ -20,6 +20,6 @@ public class PackageSensorEntity extends AbstractEntity {
     @ManyToOne
     private SensorEntity sensorEntity;
 
-    @OneToMany(mappedBy = "readings")
+    @OneToMany(mappedBy = "packageSensorEntity")
     private List<PackageSensorReadingsEntity> readings;
 }

@@ -17,5 +17,5 @@ public class SensorEntity extends AbstractEntity {
     private String name;
 
     @OneToMany(mappedBy = "sensorEntity")
-    private List<PackageSensorEntity> jointable;
+    private List<PackageSensorEntity> packageSensors;
 }

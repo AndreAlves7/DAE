@@ -7,14 +7,15 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Stateless
+@NoArgsConstructor
 public abstract class AbstractBean<T> {
 
-    private final Class<T> entityClass;
+    private Class<T> entityClass;
 
     protected AbstractBean(Class<T> entityClass) {
         this.entityClass = entityClass;

@@ -39,5 +39,5 @@ public class PackageEntity extends AbstractEntity {
     private PackageEntity packagesForTransportEntity;
 
     @OneToMany(mappedBy = "packageEntity")
-    private List<PackageSensorEntity> joinTable;
+    private List<PackageSensorEntity> packageSensors;
 }
