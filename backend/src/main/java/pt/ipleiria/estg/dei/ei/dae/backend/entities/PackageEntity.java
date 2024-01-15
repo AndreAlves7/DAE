@@ -12,31 +12,37 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name = "packages")
 public class PackageEntity extends AbstractEntity {
 
     @Column
     private String code;
 
+    @Column(name = "package_material")
     @Enumerated(EnumType.STRING)
     private PackageMaterialType packageMaterial;
+    @Column(name = "package_type")
     @Enumerated(EnumType.STRING)
     private PackageType packageType;
-    @Column
+    @Column(name = "is_transport_package")
     private boolean isTransportPackage;
 
 
     @ManyToMany
-    private List<OrderEntity> order;
+    @JoinTable(
+            name = "order_package",
+            joinColumns = @JoinColumn(name = "package_id"),
+            inverseJoinColumns = @JoinColumn(name = "order_id")
+    )
+    private List<OrderEntity> orders;
 
-    //If is a transport package, no product relationship will exist
     @ManyToOne
-    private ProductEntity product;
+    @JoinColumn(name = "product_id")
+    private ProductEntity product; //If is a transport package, no product relationship will exist
 
-    //If is not a transport package, there may be a related transport package
-    //store the related package id here
     @ManyToOne
-    private PackageEntity packagesForTransportEntity;
+    @JoinColumn(name = "packages_for_transport_id")
+    private PackageEntity packagesForTransportEntity; //If is not a transport package, there may be a related transport package
 
     @OneToMany(mappedBy = "packageEntity")
     private List<PackageSensorEntity> packageSensors;

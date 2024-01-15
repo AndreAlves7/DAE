@@ -8,14 +8,16 @@ import pt.ipleiria.estg.dei.ei.dae.backend.enums.UserType;
 @Entity
 @Getter
 @Setter
+@Table(name = "users")
 public class UserEntity extends AbstractEntity{
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "user_name" ,nullable = false, unique = true)
     private String userName;
 
-    @Column(nullable = false)
+    @Column(name = "password" , nullable = false)
     private String password;
 
+    @Column(name = "user_type" , nullable = false)
     @Enumerated(EnumType.STRING)
     private UserType userType;
 }

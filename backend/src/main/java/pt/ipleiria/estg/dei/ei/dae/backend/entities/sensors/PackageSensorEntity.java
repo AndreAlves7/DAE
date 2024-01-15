@@ -13,11 +13,14 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Table(name = "package_sensor")
 public class PackageSensorEntity extends AbstractEntity {
 
     @ManyToOne
+    @JoinColumn(name = "package_id")
     private PackageEntity packageEntity;
     @ManyToOne
+    @JoinColumn(name = "sensor_id")
     private SensorEntity sensorEntity;
 
     @OneToMany(mappedBy = "packageSensorEntity")
