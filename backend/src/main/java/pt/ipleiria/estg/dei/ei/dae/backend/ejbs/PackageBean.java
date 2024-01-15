@@ -12,7 +12,7 @@ public class PackageBean extends AbstractBean<PackageEntity> {
     @EJB
     private ProductBean productBean;
 
-    private void createPackage(PackageEntity packageEntity, Long productId){
+    public void create(PackageEntity packageEntity, Long productId){
         ProductEntity productEntity = productBean.find(productId);
         packageEntity.setProduct(productEntity);
 

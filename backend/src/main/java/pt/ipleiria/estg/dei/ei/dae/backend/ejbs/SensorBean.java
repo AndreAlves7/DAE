@@ -15,7 +15,7 @@ public class SensorBean extends AbstractBean<SensorEntity>{
         super(entityClass);
     }
 
-    private void associateSensor(String sensorName, Long packageId){
+    public void associateSensor(String sensorName, Long packageId){
         PackageEntity packageEntity = packageBean.find(packageId);
         SensorEntity sensorEntity = this.findByName(sensorName);
 

@@ -14,7 +14,7 @@ public class OrderBean extends AbstractBean<OrderEntity>{
     @EJB
     private PackageBean packageBean;
 
-    private void createOrder(OrderEntity order, List<Long> packageIds) {
+    public void createOrder(OrderEntity order, List<Long> packageIds) {
         List<PackageEntity> packages = packageBean.findAllById(packageIds);
         order.setPackageEntities(packages);
 

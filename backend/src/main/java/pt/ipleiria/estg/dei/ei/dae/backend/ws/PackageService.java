@@ -1,4 +1,4 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ws;
 
-public class PackageService {
+public class PackageService extends AbstractService{
 }

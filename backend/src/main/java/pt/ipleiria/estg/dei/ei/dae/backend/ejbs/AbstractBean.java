@@ -16,7 +16,7 @@ public abstract class AbstractBean<T> {
 
     private final Class<T> entityClass;
 
-    public AbstractBean(Class<T> entityClass) {
+    protected AbstractBean(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
