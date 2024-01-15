@@ -8,19 +8,17 @@ import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderEntity;
 import java.util.List;
 
 @Stateless
-@NoArgsConstructor
 public class OrderBean extends AbstractBean<OrderEntity>{
-    public OrderBean(Class<OrderEntity> entityClass) {
-        super(entityClass);
+    public OrderBean() {
+        super(OrderEntity.class);
     }
+    @EJB
+    private PackageBean packageBean;
 
     @Override
     public OrderEntity update(OrderEntity entity) {
         return null;
     }
-
-    @EJB
-    private PackageBean packageBean;
 
     public void createOrder(OrderEntity order, List<Long> packageIds) {
         List<PackageEntity> packages = packageBean.findAllById(packageIds);

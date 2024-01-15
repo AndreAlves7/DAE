@@ -5,10 +5,9 @@ import lombok.NoArgsConstructor;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.UserEntity;
 
 @Stateless
-@NoArgsConstructor
 public class UserBean extends AbstractBean<UserEntity> {
-    public UserBean(Class<UserEntity> entityClass) {
-        super(entityClass);
+    public UserBean() {
+        super(UserEntity.class);
     }
 
     @Override

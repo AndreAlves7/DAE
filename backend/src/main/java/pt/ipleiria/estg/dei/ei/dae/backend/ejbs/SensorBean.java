@@ -8,15 +8,13 @@ import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.SensorEntity;
 @Stateless
-@NoArgsConstructor
 public class SensorBean extends AbstractBean<SensorEntity>{
 
+    public SensorBean() {
+        super(SensorEntity.class);
+    }
     @EJB
     private PackageBean packageBean;
-
-    public SensorBean(Class<SensorEntity> entityClass) {
-        super(entityClass);
-    }
 
     @Override
     public SensorEntity update(SensorEntity entity) {

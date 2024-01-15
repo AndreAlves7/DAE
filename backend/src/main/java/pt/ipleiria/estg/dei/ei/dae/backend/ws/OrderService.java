@@ -29,7 +29,7 @@ public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
 
     @Override
     protected OrderDTO convertToDto(OrderEntity entity) {
-        return null;
+        return new OrderDTO(entity.getCode());
     }
 
     @Override
