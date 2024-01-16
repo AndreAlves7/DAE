@@ -14,10 +14,11 @@ import pt.ipleiria.estg.dei.ei.dae.backend.enums.UserType;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class UserEntity extends AbstractEntity {
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "user_name" ,nullable = false, unique = true)
     private String username;
 
     @NotNull
+    @Column(name = "password" , nullable = false)
     private String password;
 
     @NotNull

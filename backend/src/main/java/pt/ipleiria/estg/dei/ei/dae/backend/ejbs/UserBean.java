@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.NotFoundException;
 import org.hibernate.Hibernate;
+import lombok.NoArgsConstructor;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.UserEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.UserType;
 import pt.ipleiria.estg.dei.ei.dae.backend.security.Hasher;
@@ -13,9 +14,8 @@ import java.security.InvalidParameterException;
 
 @Stateless
 public class UserBean extends AbstractBean<UserEntity> {
-
-    public UserBean(Class<UserEntity> entityClass) {
-        super(entityClass);
+    public UserBean() {
+        super(UserEntity.class);
     }
 
     @Inject
@@ -51,16 +51,8 @@ public class UserBean extends AbstractBean<UserEntity> {
         return user;
     }
 
-    public UserEntity update(String username, String name, String email, UserType type) {
-        if(username.isEmpty() || name.isEmpty() || email.isEmpty() || type == null){
-            throw new InvalidParameterException();
-        }
-        UserEntity user = findOrFail(username);
-        user.setName(name);
-        user.setEmail(email);
-        user.setUserType(type);
-        em.persist(user);
-
-        return user;
+    @Override
+    public UserEntity update(UserEntity entity) {
+        return null;
     }
 }

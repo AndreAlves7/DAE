@@ -7,16 +7,17 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Stateless
+@NoArgsConstructor
 public abstract class AbstractBean<T> {
 
-    private final Class<T> entityClass;
+    private Class<T> entityClass;
 
-    public AbstractBean(Class<T> entityClass) {
+    protected AbstractBean(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
@@ -26,6 +27,8 @@ public abstract class AbstractBean<T> {
     protected EntityManager getEntityManager() {
         return em;
     }
+
+    public abstract T update(T entity);
 
     public void create(T entity) {
         em.persist(entity);
@@ -54,7 +57,7 @@ public abstract class AbstractBean<T> {
         return em.createQuery(cq).getResultList();
     }
 
-    public T update(T entity) {
+    public T update(T entity, List<T> parametersToUpdate) {
         return em.merge(entity);
     }
 
