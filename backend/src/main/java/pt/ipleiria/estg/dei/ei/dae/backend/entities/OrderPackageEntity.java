@@ -12,8 +12,8 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "order_package_link")
 @IdClass(PackageOrderId.class)
 public class OrderPackageEntity implements Serializable {

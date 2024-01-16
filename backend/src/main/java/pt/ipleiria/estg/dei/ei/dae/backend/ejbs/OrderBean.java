@@ -9,6 +9,7 @@ import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Stateless
 public class OrderBean extends AbstractBean<OrderEntity>{
@@ -17,6 +18,35 @@ public class OrderBean extends AbstractBean<OrderEntity>{
     }
     @EJB
     private PackageBean packageBean;
+    @EJB
+    private OrderPackageBean orderPackageLinkBean;
+
+
+    public void associateOrder(Long orderId, List<Long> packageIds, int quantity) {
+        OrderEntity order = find(orderId);
+
+        if(order == null){
+            System.out.println("No order found for given ID");
+            return;
+        }
+
+        // Assuming that the OrderEntity and PackageEntity already exist.
+
+        List<PackageEntity> packageEntities = packageBean.findAllById(packageIds);
+
+        List<OrderPackageEntity> orderPackages = packageEntities.stream().map(packageEntity -> {
+            OrderPackageEntity orderPackage = new OrderPackageEntity();
+
+            orderPackage.setOrderEntity(order);
+            orderPackage.setPackageEntity(packageEntity);
+            orderPackage.setQuantity(quantity);
+            orderPackageLinkBean.create(orderPackage);
+            return orderPackage;
+        }).collect(Collectors.toList());
+
+        // Just setting the new list of orderPackages is enough for JPA to pick up the changes since we set the Cascade!
+        order.setOrderPackages(orderPackages);
+    }
 
     public void createOrder(OrderEntity order, List<Long> packageIds, int quantity) {
         List<OrderPackageEntity> orderPackages = new ArrayList<>();

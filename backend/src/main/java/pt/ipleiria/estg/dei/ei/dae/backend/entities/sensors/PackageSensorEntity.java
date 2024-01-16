@@ -1,7 +1,9 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.compositeKeys.PackageSensorId;
@@ -14,6 +16,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "package_sensor_link")
 @IdClass(PackageSensorId.class)
 public class PackageSensorEntity implements Serializable {

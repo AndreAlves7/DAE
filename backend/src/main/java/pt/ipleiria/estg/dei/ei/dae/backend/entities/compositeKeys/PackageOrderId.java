@@ -1,6 +1,8 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.entities.compositeKeys;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
@@ -8,15 +10,12 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PackageOrderId implements Serializable {
     private Long packageEntity;
     private Long orderEntity;
 
-
-    public PackageOrderId(Long packageEntity, Long orderEntity) {
-        this.packageEntity = packageEntity;
-        this.orderEntity = orderEntity;
-    }
 
     @Override
     public boolean equals(Object o) {
