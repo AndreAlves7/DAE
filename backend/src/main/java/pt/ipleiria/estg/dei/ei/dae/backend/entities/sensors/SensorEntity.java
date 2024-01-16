@@ -20,4 +20,9 @@ public class SensorEntity extends AbstractEntity {
 
     @OneToMany(mappedBy = "sensorEntity")
     private List<PackageSensorEntity> packageSensors;
+
+    @Override
+    protected void onCreate() {
+
+    }
 }

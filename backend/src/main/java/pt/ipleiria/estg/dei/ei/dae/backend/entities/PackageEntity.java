@@ -32,9 +32,6 @@ public class PackageEntity extends AbstractEntity {
     private boolean isTransportPackage;
 
 
-    @OneToMany(mappedBy = "packageEntity")
-    private List<OrderPackageEntity> orderPackages;
-
     @ManyToOne
     @JoinColumn(name = "product_id")
     private ProductEntity product; //If is a transport package, no product relationship will exist
@@ -43,6 +40,9 @@ public class PackageEntity extends AbstractEntity {
     @JoinColumn(name = "packages_for_transport_id")
     private PackageEntity packagesForTransportEntity; //If is not a transport package, there may be a related transport package
 
+
+    @OneToMany(mappedBy = "packageEntity")
+    private List<OrderPackageEntity> orderPackages;
     @OneToMany(mappedBy = "packageEntity")
     private List<PackageSensorEntity> packageSensors;
 

@@ -19,7 +19,8 @@ public class OrderEntity extends AbstractEntity {
     @Column
     private String code;
 
-    @OneToMany(mappedBy = "orderEntity")
+    //orphanRemoval true will delete the OrderPackageEntities when you delete a normal OrderEntity
+    @OneToMany(mappedBy = "orderEntity" , cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<OrderPackageEntity> orderPackages;
 
     @Override
