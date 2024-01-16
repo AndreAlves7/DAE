@@ -11,6 +11,7 @@ import java.util.Date;
 @Setter
 public abstract class AbstractEntity {
 
+    protected abstract void onCreate();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,7 +21,9 @@ public abstract class AbstractEntity {
     private Date createdDate;
 
     @PrePersist
-    protected void onCreate() {
+    protected void onCreateAbstract() {
+
         createdDate = new Date();
+        onCreate();
     }
 }

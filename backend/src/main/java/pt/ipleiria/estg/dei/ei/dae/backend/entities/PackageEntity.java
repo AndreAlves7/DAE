@@ -1,7 +1,9 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageMaterialType;
@@ -13,6 +15,8 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "packages")
+@NoArgsConstructor
+@AllArgsConstructor
 public class PackageEntity extends AbstractEntity {
 
     @Column
@@ -28,13 +32,8 @@ public class PackageEntity extends AbstractEntity {
     private boolean isTransportPackage;
 
 
-    @ManyToMany
-    @JoinTable(
-            name = "order_package",
-            joinColumns = @JoinColumn(name = "package_id"),
-            inverseJoinColumns = @JoinColumn(name = "order_id")
-    )
-    private List<OrderEntity> orders;
+    @OneToMany(mappedBy = "packageEntity")
+    private List<OrderPackageEntity> orderPackages;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -46,4 +45,9 @@ public class PackageEntity extends AbstractEntity {
 
     @OneToMany(mappedBy = "packageEntity")
     private List<PackageSensorEntity> packageSensors;
+
+    @Override
+    protected void onCreate() {
+
+    }
 }

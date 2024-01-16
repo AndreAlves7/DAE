@@ -20,4 +20,9 @@ public class UserEntity extends AbstractEntity{
     @Column(name = "user_type" , nullable = false)
     @Enumerated(EnumType.STRING)
     private UserType userType;
+
+    @Override
+    protected void onCreate() {
+
+    }
 }
