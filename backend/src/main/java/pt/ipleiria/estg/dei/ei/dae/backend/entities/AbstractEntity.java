@@ -9,7 +9,7 @@ import java.util.Date;
 @MappedSuperclass
 @Getter
 @Setter
-public abstract class AbstractEntity {
+public abstract class AbstractEntity extends Versionable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

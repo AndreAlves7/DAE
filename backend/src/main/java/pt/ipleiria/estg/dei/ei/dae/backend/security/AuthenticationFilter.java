@@ -44,22 +44,22 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         requestContext.setSecurityContext(new SecurityContext() {
             @Override
             public Principal getUserPrincipal() {
-                return null;
+                return user::getUsername;
             }
 
             @Override
             public boolean isUserInRole(String s) {
-                return false;
+                return org.hibernate.Hibernate.getClass(user).getSimpleName().equals(s);
             }
 
             @Override
             public boolean isSecure() {
-                return false;
+                return uriInfo.getAbsolutePath().toString().startsWith("https");
             }
 
             @Override
             public String getAuthenticationScheme() {
-                return null;
+                return "Bearer";
             }
         });
     }
