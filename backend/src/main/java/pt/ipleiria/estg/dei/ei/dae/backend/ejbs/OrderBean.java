@@ -15,11 +15,6 @@ public class OrderBean extends AbstractBean<OrderEntity>{
     @EJB
     private PackageBean packageBean;
 
-    @Override
-    public OrderEntity update(OrderEntity entity) {
-        return null;
-    }
-
     public void createOrder(OrderEntity order, List<Long> packageIds) {
         List<PackageEntity> packages = packageBean.findAllById(packageIds);
         order.setPackageEntities(packages);

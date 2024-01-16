@@ -28,8 +28,6 @@ public abstract class AbstractBean<T> {
         return em;
     }
 
-    public abstract T update(T entity);
-
     public void create(T entity) {
         em.persist(entity);
     }
@@ -57,9 +55,7 @@ public abstract class AbstractBean<T> {
         return em.createQuery(cq).getResultList();
     }
 
-    public T update(T entity, List<T> parametersToUpdate) {
-        return em.merge(entity);
-    }
+    public T update(T entity) { return em.merge(entity); }
 
 
     public void delete(Long id) {

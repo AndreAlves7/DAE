@@ -73,7 +73,7 @@ public abstract class AbstractService<Entity,DTO> {
                     find(id);
             if (entityToDelete != null) {
                 getBean().delete(id);
-                return Response.noContent().build();
+                return Response.status(Response.Status.FOUND).build();
             } else {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }

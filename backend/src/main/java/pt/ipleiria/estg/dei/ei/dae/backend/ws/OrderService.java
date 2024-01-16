@@ -24,7 +24,7 @@ public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
 
     @Override
     protected OrderEntity convertToEntity(OrderDTO dto) {
-        return null;
+        return new OrderEntity(dto.getCode(), null);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
 
     @Override
     protected void copyDtoToEntity(OrderDTO dto, OrderEntity entity) {
-
+        entity.setCode(dto.getCode());
     }
 
 }
