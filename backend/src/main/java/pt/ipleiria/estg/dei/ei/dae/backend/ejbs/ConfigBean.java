@@ -34,10 +34,10 @@ public class ConfigBean {
     @PostConstruct
     public void populateDB(){
 
-        UserEntity user1 = new UserEntity("test1", "123", "Test User 1", "test1@mail.pt");
+        UserEntity user1 = new UserEntity("test1", "Test User 1", "123", "test1@mail.pt");
         userBean.create(user1);
 
-        UserEntity user2 = new UserEntity("test2", "123", "Test User 2", "test2@mail.pt");
+        UserEntity user2 = new UserEntity("test2", "Test User 2", "123", "test2@mail.pt");
         userBean.create(user2);
 
         populateOrders();

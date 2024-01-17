@@ -9,10 +9,12 @@ import pt.ipleiria.estg.dei.ei.dae.backend.dto.OrderDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.OrderBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.security.Authenticated;
 
 @Path("orders")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Authenticated
 public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
     @EJB
     protected OrderBean orderBean;

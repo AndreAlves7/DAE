@@ -6,10 +6,12 @@ import pt.ipleiria.estg.dei.ei.dae.backend.dto.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.SensorBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.SensorEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.security.Authenticated;
 
 @Path("sensors")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Authenticated
 public class SensorService extends AbstractService<SensorEntity, SensorDTO>{
 
    @EJB
