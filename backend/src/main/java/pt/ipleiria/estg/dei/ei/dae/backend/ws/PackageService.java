@@ -37,11 +37,19 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
 
     @Override
     protected PackageDTO convertToDto(PackageEntity packageEntity) {
-        return new PackageDTO(packageEntity.getCode(), packageEntity.getPackageMaterial().getDescription(), packageEntity.getPackageType().getDescription());
+        return new PackageDTO(packageEntity.getId(),packageEntity.getCode(), packageEntity.getPackageMaterial().getDescription(), packageEntity.getPackageType().getDescription());
     }
 
     @Override
     protected void copyDtoToEntity(PackageDTO packageDTO, PackageEntity packageEntity) {
+        PackageMaterialType materialType = PackageMaterialType.valueOf(packageDTO.getMaterialType().toUpperCase());
+        PackageType packageType = PackageType.valueOf(packageDTO.getPackageType().toUpperCase());
+
+
+        packageEntity.setCode(packageDTO.getCode());
+        packageEntity.setPackageMaterial(materialType);
+        packageEntity.setPackageType(packageType);
+
     }
 
     @Path("order/{id}")

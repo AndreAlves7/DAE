@@ -9,10 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDTO {
-
     private Long id;
-
     private String code;
-
     private String photoBase64;
 }

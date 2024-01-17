@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PackageDTO {
-
+    private Long id;
     private String code;
     private String materialType;
     private String packageType;

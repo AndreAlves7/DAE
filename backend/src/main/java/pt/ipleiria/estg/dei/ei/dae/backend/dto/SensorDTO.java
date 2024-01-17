@@ -9,6 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SensorDTO {
-
+    private Long id;
     private String name;
 }

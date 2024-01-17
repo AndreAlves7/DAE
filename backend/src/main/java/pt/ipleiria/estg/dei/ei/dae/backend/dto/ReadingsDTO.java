@@ -9,6 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReadingsDTO {
-
+    private Long id;
     private String value;
 }
