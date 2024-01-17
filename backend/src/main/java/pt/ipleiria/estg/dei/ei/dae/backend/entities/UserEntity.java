@@ -7,14 +7,15 @@ import lombok.Getter;
 import lombok.Setter;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.UserType;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
 @Table(name="users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class UserEntity extends AbstractEntity {
-
-    @Column(name = "user_name" ,nullable = false, unique = true)
+public class UserEntity extends Versionable {
+    @Id
     private String username;
 
     @NotNull
@@ -31,6 +32,10 @@ public class UserEntity extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_date", nullable = false, updatable = false)
+    private Date createdDate;
+
     public UserEntity(){}
 
     public UserEntity(String username, String name, String password, String email) {
@@ -39,5 +44,6 @@ public class UserEntity extends AbstractEntity {
         this.password = password;
         this.email = email;
         this.userType = UserType.CONSUMER;
+        this.createdDate = new Date();
     }
 }

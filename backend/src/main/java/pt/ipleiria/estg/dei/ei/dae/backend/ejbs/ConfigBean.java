@@ -9,6 +9,7 @@ import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.UserEntity;
 
 @Singleton
 @Startup
@@ -32,6 +33,13 @@ public class ConfigBean {
 
     @PostConstruct
     public void populateDB(){
+
+        UserEntity user1 = new UserEntity("test1", "123", "Test User 1", "test1@mail.pt");
+        userBean.create(user1);
+
+        UserEntity user2 = new UserEntity("test2", "123", "Test User 2", "test2@mail.pt");
+        userBean.create(user2);
+
         populateOrders();
     }
 

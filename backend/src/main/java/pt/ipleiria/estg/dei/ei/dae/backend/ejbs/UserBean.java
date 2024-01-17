@@ -3,14 +3,12 @@ package pt.ipleiria.estg.dei.ei.dae.backend.ejbs;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
-import jakarta.ws.rs.NotFoundException;
 import org.hibernate.Hibernate;
-import lombok.NoArgsConstructor;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.UserEntity;
-import pt.ipleiria.estg.dei.ei.dae.backend.enums.UserType;
 import pt.ipleiria.estg.dei.ei.dae.backend.security.Hasher;
 
 import java.security.InvalidParameterException;
+import java.util.Locale;
 
 @Stateless
 public class UserBean extends AbstractBean<UserEntity> {
@@ -21,7 +19,7 @@ public class UserBean extends AbstractBean<UserEntity> {
     @Inject
     private Hasher hasher;
 
-    public UserEntity find(String username){
+    public UserEntity findByUsername(String username){
         return em.find(UserEntity.class, username);
     }
 
@@ -32,27 +30,41 @@ public class UserBean extends AbstractBean<UserEntity> {
     }
 
     public boolean canLogin(String username, String password) {
-        UserEntity user = find(username);
+        System.out.println(username);
+        UserEntity user = findByUsername(username);
         return user != null && user.getPassword().equals(hasher.hash(password));
     }
 
-    public UserEntity create(String username, String name, String password, String email){
-        if(username.isEmpty() || name.isEmpty() || password.isEmpty() || email.isEmpty()){
-            throw new InvalidParameterException();
-        }
-
-        UserEntity user = null;
+    @Override
+    public void create(UserEntity user) {
+        validateUser(user);
         try {
-            user = new UserEntity(username, name, hasher.hash(password), email);
-            em.persist(user);
+            user.setUsername(user.getUsername().toLowerCase(Locale.ROOT));
+            user.setPassword(hasher.hash(user.getPassword()));
+            super.create(user);
+        } catch (ConstraintViolationException ex) {
+            throw new ConstraintViolationException(ex.getConstraintViolations());
+        }
+    }
+
+    @Override
+    public UserEntity update(UserEntity user) {
+        validateUser(user);
+        try {
+            user.setName(user.getName().trim());
+            user.setEmail(user.getName().trim());
+            user.setUserType(user.getUserType());
+            em.merge(user);
         } catch (ConstraintViolationException ex) {
             throw new ConstraintViolationException(ex.getConstraintViolations());
         }
         return user;
     }
 
-    @Override
-    public UserEntity update(UserEntity entity) {
-        return null;
+    private void validateUser(UserEntity user) {
+        if(user == null || user.getUsername() == null || user.getName() == null
+                || user.getPassword() == null || user.getEmail() == null){
+            throw new InvalidParameterException();
+        }
     }
 }
