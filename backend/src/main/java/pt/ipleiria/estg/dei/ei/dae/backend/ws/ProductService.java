@@ -32,7 +32,7 @@ public class ProductService extends AbstractService<ProductEntity,ProductDTO> {
     @Override
     protected ProductDTO convertToDto(ProductEntity productEntity) {
 
-        return new ProductDTO(productEntity.getCode(), productEntity.getPhotoBase64()) ;
+        return new ProductDTO(productEntity.getId(),productEntity.getCode(), productEntity.getPhotoBase64()) ;
     }
 
     @Override
