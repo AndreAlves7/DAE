@@ -29,9 +29,7 @@ public class OrderBean extends AbstractBean<OrderEntity>{
             System.out.println("No order found for given ID");
             return;
         }
-
-        // Assuming that the OrderEntity and PackageEntity already exist.
-
+        
         List<PackageEntity> packageEntities = packageBean.findAllById(packageIds);
 
         List<OrderPackageEntity> orderPackages = packageEntities.stream().map(packageEntity -> {
@@ -48,6 +46,7 @@ public class OrderBean extends AbstractBean<OrderEntity>{
         order.setOrderPackages(orderPackages);
     }
 
+    //TODO TEST!!!!!!
     public void createOrder(OrderEntity order, List<Long> packageIds, int quantity) {
         List<OrderPackageEntity> orderPackages = new ArrayList<>();
 
@@ -65,6 +64,7 @@ public class OrderBean extends AbstractBean<OrderEntity>{
     }
 
 
+    //TODO TEST!!!!!!
     public void updateOrder(OrderEntity order, List<Long> packageIds) {
 
         // Find current OrderPackages and remove them
