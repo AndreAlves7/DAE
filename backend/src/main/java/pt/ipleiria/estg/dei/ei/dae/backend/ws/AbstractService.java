@@ -55,6 +55,10 @@ public abstract class AbstractService<Entity,DTO> {
             }
             copyDtoToEntity(dto, entityToUpdate);
             Entity updatedEntity = getBean().update(entityToUpdate);
+            if(updatedEntity == null){
+                throw new PersistenceException();
+            }
+
             DTO updatedDto = convertToDto(updatedEntity);
             return Response.ok(updatedDto).build();
         } catch (PersistenceException e) {

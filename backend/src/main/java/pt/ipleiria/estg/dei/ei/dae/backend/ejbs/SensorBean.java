@@ -25,10 +25,7 @@ public class SensorBean extends AbstractBean<SensorEntity>{
     @EJB
     private PackageSensorBean packageSensorBean;
 
-    @Override
-    public SensorEntity update(SensorEntity entity) {
-        return null;
-    }
+
 
     public void associatePackagesToSensor(long sensorId, List<Long> packageIds) {
         SensorEntity sensor = find(sensorId);

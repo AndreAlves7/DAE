@@ -10,8 +10,4 @@ public class ProductBean extends AbstractBean<ProductEntity>{
         super(ProductEntity.class);
     }
 
-    @Override
-    public ProductEntity update(ProductEntity entity) {
-        return null;
-    }
 }

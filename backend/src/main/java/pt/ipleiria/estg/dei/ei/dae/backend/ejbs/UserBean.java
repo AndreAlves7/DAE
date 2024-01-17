@@ -10,8 +10,4 @@ public class UserBean extends AbstractBean<UserEntity> {
         super(UserEntity.class);
     }
 
-    @Override
-    public UserEntity update(UserEntity entity) {
-        return null;
-    }
 }

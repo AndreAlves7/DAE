@@ -35,10 +35,6 @@ public class PackageBean extends AbstractBean<PackageEntity> {
     @EJB
     private OrderPackageBean orderPackageBean;
 
-    @Override
-    public PackageEntity update(PackageEntity entity) {
-        return null;
-    }
 
     public void associateSensorsToPackages(long packageId, List<Long> sensorIds) {
         PackageEntity packageEntity = find(packageId);
