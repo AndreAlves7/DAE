@@ -41,9 +41,9 @@ public class PackageEntity extends AbstractEntity {
     private PackageEntity packagesForTransportEntity; //If is not a transport package, there may be a related transport package
 
 
-    @OneToMany(mappedBy = "packageEntity")
+    @OneToMany(mappedBy = "packageEntity", cascade = CascadeType.REMOVE)
     private List<OrderPackageEntity> orderPackages;
-    @OneToMany(mappedBy = "packageEntity")
+    @OneToMany(mappedBy = "packageEntity", cascade = CascadeType.REMOVE)
     private List<PackageSensorEntity> packageSensors;
 
     @Override

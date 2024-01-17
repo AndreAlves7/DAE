@@ -3,12 +3,10 @@ import pt.ipleiria.estg.dei.ei.dae.backend.enums.UserType;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.SensorEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageMaterialType;
-import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageType;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 import jakarta.annotation.PostConstruct;
@@ -100,9 +98,12 @@ public class ConfigBean {
             packageEntity.setProduct(productBean.find((long ) i));
             packageEntity.setPackagesForTransportEntity(null);
 
-//            packageEntity.setOrderPackages(new ArrayList<OrderPackageEntity>());
-//            packageEntity.setPackageSensors(new ArrayList<PackageSensorEntity>());
             packageBean.create(packageEntity);
+        }
+        //Associate Sensors
+        for (int i = 1; i <= 10; i++) {
+            sensorBean.associatePackagesToSensor(i,packageBean.findAll().stream().map(PackageEntity::getId).collect(Collectors.toList()));
+//            packageBean.associateSensorsToPackages(i,packageBean.findAll().stream().map(PackageEntity::getId).collect(Collectors.toList()));
         }
     }
 
@@ -113,10 +114,18 @@ public class ConfigBean {
 
             orderBean.create(order);
         }
-        //Associate Orders
+        Map<Long, Integer> packageToRandomCount = new HashMap<>();
+        Random random = new Random();
+
         for (int i = 1; i <= 10; i++) {
-            orderBean.associateOrder((long)i, Collections.singletonList((long) i),99);
+            PackageEntity packageEntity = packageBean.find((long)i);
+            int randomNumber = random.nextInt(100) + 1;
+            packageToRandomCount.put(packageEntity.getId(), randomNumber);
         }
 
+        for (int i = 1; i <= 10; i++) {
+//            orderBean.associatePackagesToOrder((long)i,packageToRandomCount);
+            packageBean.associateOrdersToPackage((long)i,packageToRandomCount);
+        }
     }
 }

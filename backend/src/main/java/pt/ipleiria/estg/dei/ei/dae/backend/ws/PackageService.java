@@ -10,6 +10,9 @@ import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.OrderBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.PackageBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.SensorEntity;
+
+import java.util.List;
 
 @Path("packages")
 @Produces(MediaType.APPLICATION_JSON)
