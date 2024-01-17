@@ -13,5 +13,4 @@ public class PackageDTO {
     private String code;
     private String materialType;
     private String packageType;
-    private boolean isTransportPackage;
 }

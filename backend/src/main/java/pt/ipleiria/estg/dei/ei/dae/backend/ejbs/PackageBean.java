@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.backend.ejbs;
 
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
+import jakarta.persistence.TypedQuery;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderPackageEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
@@ -96,20 +97,14 @@ public class PackageBean extends AbstractBean<PackageEntity> {
         }
     }
 
+    public List<PackageEntity> findAllByOrderId(Long orderId) {
+        TypedQuery<PackageEntity> query = em.createQuery(
+                "SELECT p FROM PackageEntity p " +
+                        "JOIN OrderPackageEntity op ON op.packageEntity.id = p.id " +
+                        "JOIN OrderEntity order_entity ON op.packageEntity.id = order_entity.id " +
+                        "WHERE order_entity.id = :orderId", PackageEntity.class);
+        query.setParameter("packageId", orderId);
 
-
-
-    public void create(PackageEntity packageEntity, Long productId){
-        ProductEntity productEntity = productBean.find(productId);
-        packageEntity.setProduct(productEntity);
-
-        em.persist(packageEntity);
-    }
-
-    public PackageEntity updatePackage(PackageEntity packageEntity, Long productId) {
-        ProductEntity productEntity = productBean.find(productId);
-        packageEntity.setProduct(productEntity);
-
-        return em.merge(packageEntity);
+        return new ArrayList<>(query.getResultList());
     }
 }

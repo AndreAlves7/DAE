@@ -1,17 +1,16 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ws;
 
 import jakarta.ejb.EJB;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.PackageDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
-import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.OrderBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.PackageBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
-import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.SensorEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageMaterialType;
+import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("packages")
@@ -29,16 +28,31 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
 
     @Override
     protected PackageEntity convertToEntity(PackageDTO packageDTO) {
-        return null;
+        PackageMaterialType materialType = PackageMaterialType.valueOf(packageDTO.getMaterialType().toUpperCase());
+        PackageType packageType = PackageType.valueOf(packageDTO.getPackageType().toUpperCase());
+
+        return new PackageEntity(packageDTO.getCode(), materialType, packageType, null, null, null, null);
     }
+
 
     @Override
     protected PackageDTO convertToDto(PackageEntity packageEntity) {
-        return null;
+        return new PackageDTO(packageEntity.getCode(), packageEntity.getPackageMaterial().getDescription(), packageEntity.getPackageType().getDescription());
     }
 
     @Override
     protected void copyDtoToEntity(PackageDTO packageDTO, PackageEntity packageEntity) {
-
     }
+
+    @Path("order/{id}")
+    @GET
+    public List<PackageDTO> findAllByOrderId(@PathParam("id") Long orderId) {
+        List<PackageDTO> dtos = new ArrayList<>();
+        packageBean.findAllByOrderId(orderId).forEach( entity -> {
+            PackageDTO sensorDTO = convertToDto(entity);
+            dtos.add(sensorDTO);
+        });
+        return dtos;
+    }
+
 }

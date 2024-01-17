@@ -6,10 +6,13 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.OrderDTO;
+import pt.ipleiria.estg.dei.ei.dae.backend.dto.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.OrderBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderEntity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Path("orders")
