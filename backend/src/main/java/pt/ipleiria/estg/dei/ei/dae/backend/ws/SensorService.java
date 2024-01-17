@@ -51,4 +51,5 @@ public class SensorService extends AbstractService<SensorEntity, SensorDTO>{
          });
         return dtos;
     }
+
 }

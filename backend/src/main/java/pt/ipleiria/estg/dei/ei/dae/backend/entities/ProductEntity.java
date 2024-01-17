@@ -1,7 +1,9 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.nio.charset.StandardCharsets;
@@ -13,7 +15,14 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "products")
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductEntity extends AbstractEntity{
+
+    public ProductEntity(String code, String photoBase64) {
+        this.code = code;
+        this.photoBase64 = photoBase64;
+    }
 
     @Override
     public void onCreate() {

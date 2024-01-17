@@ -93,10 +93,9 @@ public class ConfigBean {
             packageEntity.setCode("Package" + i);
             packageEntity.setPackageMaterial(PackageMaterialType.CARDBOARD);
             packageEntity.setPackageType(PackageType.PRIMARY);
-            packageEntity.setTransportPackage(false);
 
             packageEntity.setProduct(productBean.find((long ) i));
-            packageEntity.setPackagesForTransportEntity(null);
+            packageEntity.setOuterPackageId(null);
 
             packageBean.create(packageEntity);
         }

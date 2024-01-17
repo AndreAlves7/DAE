@@ -5,10 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Map;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDTO {
+    private Long id;
     private String code;
+    private Map<Long, Integer> quantityByPackageID;
 }

@@ -28,18 +28,14 @@ public class PackageEntity extends AbstractEntity {
     @Column(name = "package_type")
     @Enumerated(EnumType.STRING)
     private PackageType packageType;
-    @Column(name = "is_transport_package")
-    private boolean isTransportPackage;
-
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     private ProductEntity product; //If is a transport package, no product relationship will exist
 
     @ManyToOne
-    @JoinColumn(name = "packages_for_transport_id")
-    private PackageEntity packagesForTransportEntity; //If is not a transport package, there may be a related transport package
-
+    @JoinColumn(name = "outer_package_id")
+    private PackageEntity outerPackageId;
 
     @OneToMany(mappedBy = "packageEntity", cascade = CascadeType.REMOVE)
     private List<OrderPackageEntity> orderPackages;
