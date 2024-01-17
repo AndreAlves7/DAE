@@ -102,8 +102,8 @@ public class PackageBean extends AbstractBean<PackageEntity> {
                 "SELECT p FROM PackageEntity p " +
                         "JOIN OrderPackageEntity op ON op.packageEntity.id = p.id " +
                         "JOIN OrderEntity order_entity ON op.packageEntity.id = order_entity.id " +
-                        "WHERE order_entity.id = :orderId", PackageEntity.class);
-        query.setParameter("packageId", orderId);
+                        "WHERE op.orderEntity.id = :orderId", PackageEntity.class);
+        query.setParameter("orderId", orderId);
 
         return new ArrayList<>(query.getResultList());
     }

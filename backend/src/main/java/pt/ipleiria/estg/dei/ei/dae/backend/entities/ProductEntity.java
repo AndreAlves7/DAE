@@ -19,6 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductEntity extends AbstractEntity{
 
+
     public ProductEntity(String code, String photoBase64) {
         this.code = code;
         this.photoBase64 = photoBase64;
@@ -34,7 +35,7 @@ public class ProductEntity extends AbstractEntity{
     private List<PackageEntity> packageEntity;
 
     @Override
-    protected void onCreate() {
+    public void onCreate() {
 
     }
 }
