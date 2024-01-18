@@ -14,5 +14,6 @@ import java.util.Map;
 public class OrderDTO {
     private Long id;
     private String code;
+    private boolean isReturned;
     private Map<Long, Integer> quantityByPackageID;
 }

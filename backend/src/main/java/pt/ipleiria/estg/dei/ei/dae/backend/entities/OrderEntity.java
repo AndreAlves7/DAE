@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -18,6 +19,9 @@ public class OrderEntity extends AbstractEntity {
 
     @Column
     private String code;
+
+    @Column(name = "is_returned", nullable = false)
+    private boolean isReturned = false;
 
     @OneToMany(mappedBy = "orderEntity" , cascade = CascadeType.REMOVE)
     private List<OrderPackageEntity> orderPackages;
