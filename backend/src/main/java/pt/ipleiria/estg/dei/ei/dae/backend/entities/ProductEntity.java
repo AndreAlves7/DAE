@@ -19,14 +19,19 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductEntity extends AbstractEntity{
 
-
-    public ProductEntity(String code, String photoBase64) {
+    public ProductEntity(String code, String name, String description, String photoBase64) {
         this.code = code;
+        this.name = name;
+        this.description = description;
         this.photoBase64 = photoBase64;
     }
 
     @Column
     private String code;
+    @Column
+    private String name;
+    @Column
+    private String description;
 
     @Column(name = "product_base64", columnDefinition = "TEXT")
     private String photoBase64;

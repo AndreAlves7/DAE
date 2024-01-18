@@ -84,6 +84,8 @@ public class ConfigBean {
         for (int i = 1; i <= 10; i++) {
             ProductEntity product = new ProductEntity();
             product.setCode("Product" + i);
+            product.setName("ProductName" + i);
+            product.setDescription("ProductDescription" + i);
             product.setPhotoBase64("Product Photo" + i);
 
             product.setPackageEntity(Collections.singletonList(packageBean.find((long ) i)));
