@@ -37,3 +37,9 @@ monitor: deploy logs
 
 mails:
 	docker compose exec --workdir /var/mail smtp bash
+
+stop:
+	docker compose stop
+
+restart:
+	docker compose restart

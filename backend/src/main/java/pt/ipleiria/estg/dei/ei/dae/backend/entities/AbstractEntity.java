@@ -4,13 +4,15 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
 @Getter
 @Setter
-public abstract class AbstractEntity extends Versionable {
+public abstract class AbstractEntity extends Versionable implements Serializable {
 
+    protected abstract void onCreate();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,7 +22,9 @@ public abstract class AbstractEntity extends Versionable {
     private Date createdDate;
 
     @PrePersist
-    protected void onCreate() {
+    protected void onCreateAbstract() {
+
         createdDate = new Date();
+        onCreate();
     }
 }

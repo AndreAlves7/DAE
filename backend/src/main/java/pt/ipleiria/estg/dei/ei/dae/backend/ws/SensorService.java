@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ws;
 import jakarta.ejb.EJB;
+import jakarta.persistence.TypedQuery;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.SensorDTO;
@@ -7,6 +8,9 @@ import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.SensorBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.SensorEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.security.Authenticated;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Path("sensors")
 @Produces(MediaType.APPLICATION_JSON)
@@ -24,16 +28,30 @@ public class SensorService extends AbstractService<SensorEntity, SensorDTO>{
 
     @Override
     protected SensorEntity convertToEntity(SensorDTO sensorDTO) {
-        return null;
+
+        return new SensorEntity(sensorDTO.getName(), null);
     }
 
     @Override
     protected SensorDTO convertToDto(SensorEntity sensorEntity) {
-        return null;
+
+        return new SensorDTO(sensorEntity.getId(),sensorEntity.getName()) ;
     }
 
     @Override
     protected void copyDtoToEntity(SensorDTO sensorDTO, SensorEntity sensorEntity) {
-
+        sensorDTO.setName(sensorEntity.getName());
     }
+
+    @Path("packages/{id}")
+    @GET
+    public List<SensorDTO> findAllByPackageId(@PathParam("id") Long packageId) {
+        List<SensorDTO> dtos = new ArrayList<>();
+         sensorBean.findAllByPackageId(packageId).forEach( entity -> {
+             SensorDTO sensorDTO = convertToDto(entity);
+             dtos.add(sensorDTO);
+         });
+        return dtos;
+    }
+
 }

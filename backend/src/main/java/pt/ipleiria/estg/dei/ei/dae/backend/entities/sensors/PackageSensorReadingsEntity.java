@@ -13,9 +13,17 @@ import pt.ipleiria.estg.dei.ei.dae.backend.entities.AbstractEntity;
 public class PackageSensorReadingsEntity extends AbstractEntity {
 
     @ManyToOne
-    @JoinColumn(name = "package_sensor_id")
+    @JoinColumns({
+            @JoinColumn(name = "package_id", referencedColumnName = "package_id"),
+            @JoinColumn(name = "sensor_id", referencedColumnName = "sensor_id")
+    })
     private PackageSensorEntity packageSensorEntity;
 
     @Column
     private String value;
+
+    @Override
+    protected void onCreate() {
+
+    }
 }

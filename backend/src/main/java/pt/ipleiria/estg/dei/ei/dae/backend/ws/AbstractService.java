@@ -55,6 +55,10 @@ public abstract class AbstractService<Entity,DTO> {
             }
             copyDtoToEntity(dto, entityToUpdate);
             Entity updatedEntity = getBean().update(entityToUpdate);
+            if(updatedEntity == null){
+                throw new PersistenceException();
+            }
+
             DTO updatedDto = convertToDto(updatedEntity);
             return Response.ok(updatedDto).build();
         } catch (PersistenceException e) {
@@ -73,7 +77,7 @@ public abstract class AbstractService<Entity,DTO> {
                     find(id);
             if (entityToDelete != null) {
                 getBean().delete(id);
-                return Response.noContent().build();
+                return Response.status(Response.Status.FOUND).build();
             } else {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }

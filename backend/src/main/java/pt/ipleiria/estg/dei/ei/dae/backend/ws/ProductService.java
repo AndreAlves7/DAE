@@ -28,16 +28,17 @@ public class ProductService extends AbstractService<ProductEntity,ProductDTO> {
 
     @Override
     protected ProductEntity convertToEntity(ProductDTO productDTO) {
-        return null;
+        return new ProductEntity(productDTO.getCode(),productDTO.getPhotoBase64());
     }
 
     @Override
     protected ProductDTO convertToDto(ProductEntity productEntity) {
-        return null;
+
+        return new ProductDTO(productEntity.getId(),productEntity.getCode(), productEntity.getPhotoBase64()) ;
     }
 
     @Override
     protected void copyDtoToEntity(ProductDTO productDTO, ProductEntity productEntity) {
-
+        productEntity.setCode(productDTO.getCode());
     }
 }
