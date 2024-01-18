@@ -90,7 +90,7 @@ public class ConfigBean {
             product.setName("ProductName" + i);
             product.setDescription("ProductDescription" + i);
 
-            product.setPhotoBase64("https://i5.walmartimages.com/seo/Great-Value-Whole-Vitamin-D-Milk-Gallon-128-fl-oz_6a7b09b4-f51d-4bea-a01c-85767f1b481a.86876244397d83ce6cdedb030abe6e4a.jpeg?odnHeight=640&odnWidth=640&odnBg=FFFFFF");
+            product.setPhotoBase64("https://img.freepik.com/premium-vector/piece-cheese-pizza-pixel-art-style_475147-1272.jpg?w=740");
 
             product.setPackageEntity(Collections.singletonList(packageBean.find((long ) i)));
 
