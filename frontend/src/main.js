@@ -1,5 +1,10 @@
 import './assets/main.css'
 
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap'
+import { BootstrapIconsPlugin } from 'bootstrap-icons-vue';
+import PrimeVue from 'primevue/config';
+
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
@@ -15,6 +20,7 @@ axios.defaults.baseURL = apiDomain + '/backend/api'
 axios.defaults.headers.common['Content-type'] = 'application/json'
 
 app.use(createPinia())
-app.use(router)
-
-app.mount('#app')
+.use(router)
+.use(PrimeVue)
+.use(BootstrapIconsPlugin)
+.mount('#app')
