@@ -1,4 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ejbs;
+import java.util.Date;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorReadingsEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.UserType;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.SensorEntity;
@@ -33,6 +35,8 @@ public class ConfigBean {
 
     @EJB
     private UserBean userBean;
+    @EJB
+    private PackageSensorReadingsBean readingsBean;
 
 
     @PostConstruct
@@ -47,7 +51,7 @@ public class ConfigBean {
         //SECOND STEP ===========
         populatePackages();
 
-        //TODO populateReadings();
+        populateReadings();
 
         //THIRD STEP ===========
         populateOrders();
@@ -97,7 +101,7 @@ public class ConfigBean {
             packageEntity.setPackageType(PackageType.PRIMARY);
 
             packageEntity.setProduct(productBean.find((long ) i));
-            packageEntity.setOuterPackageId(null);
+            packageEntity.setOuterPackage(null);
 
             packageBean.create(packageEntity);
         }
@@ -105,6 +109,20 @@ public class ConfigBean {
         for (int i = 1; i <= 10; i++) {
             sensorBean.associatePackagesToSensor(i,packageBean.findAll().stream().map(PackageEntity::getId).collect(Collectors.toList()));
 //            packageBean.associateSensorsToPackages(i,packageBean.findAll().stream().map(PackageEntity::getId).collect(Collectors.toList()));
+        }
+    }
+
+    private void populateReadings(){
+        for (int i = 1; i <= 10; i++) {
+            PackageSensorReadingsEntity readingsEntity = new PackageSensorReadingsEntity();
+            readingsEntity.setValue("");
+            readingsEntity.setRecordingTimeStamp(new Date());
+
+            Random random = new Random();
+            int randomNumber = random.nextInt(10) + 1;
+            int randomNumber2 = random.nextInt(10) + 1;
+
+            readingsBean.createReading(readingsEntity, (long)randomNumber , (long)randomNumber2);
         }
     }
 

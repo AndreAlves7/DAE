@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.backend.ws;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.PackageDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.PackageBean;
@@ -20,6 +21,7 @@ import java.util.List;
 @Authenticated
 public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
 
+    public static final String PACKAGE_ASSOCIATION_SUCCESSFUL = "Package association successful";
     @EJB
     protected PackageBean packageBean;
 
@@ -39,7 +41,7 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
 
     @Override
     protected PackageDTO convertToDto(PackageEntity packageEntity) {
-        return new PackageDTO(packageEntity.getId(),packageEntity.getCode(), packageEntity.getPackageMaterial().getDescription(), packageEntity.getPackageType().getDescription());
+        return new PackageDTO(packageEntity.getId(), null,packageEntity.getCode(), packageEntity.getPackageMaterial().getDescription(), packageEntity.getPackageType().getDescription());
     }
 
     @Override
@@ -54,8 +56,8 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
 
     }
 
-    @Path("order/{id}")
     @GET
+    @Path("order/{id}")
     public List<PackageDTO> findAllByOrderId(@PathParam("id") Long orderId) {
         List<PackageDTO> dtos = new ArrayList<>();
         packageBean.findAllByOrderId(orderId).forEach( entity -> {
@@ -63,6 +65,22 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
             dtos.add(sensorDTO);
         });
         return dtos;
+    }
+
+    @PATCH
+    public Response associateOuterPackage(PackageDTO packageDTO) {
+        Long innerPackageId = packageDTO.getId();
+        Long outerPackageId = packageDTO.getOuterId();
+
+        String result = packageBean.associateOuterPackage(innerPackageId, outerPackageId);
+
+        // Based on the result string, determine the response
+        if (result.equals(PACKAGE_ASSOCIATION_SUCCESSFUL)) {
+            return Response.ok(result).build();
+        } else {
+            // Assuming all other cases are error cases
+            return Response.status(Response.Status.BAD_REQUEST).entity(result).build();
+        }
     }
 
 }

@@ -1,15 +1,21 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.AbstractEntity;
+
+import java.util.Date;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "package_sensor_readings")
 @AttributeOverride(name = "id", column = @Column(name = "reading_id"))
+@AllArgsConstructor
+@NoArgsConstructor
 public class PackageSensorReadingsEntity extends AbstractEntity {
 
     @ManyToOne
@@ -21,6 +27,9 @@ public class PackageSensorReadingsEntity extends AbstractEntity {
 
     @Column
     private String value;
+
+    @Column(name = "recording_time_stamp")
+    private Date recordingTimeStamp;
 
     @Override
     protected void onCreate() {

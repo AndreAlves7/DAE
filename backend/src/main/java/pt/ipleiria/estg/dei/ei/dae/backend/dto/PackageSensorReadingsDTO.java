@@ -4,14 +4,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PackageDTO {
+public class PackageSensorReadingsDTO {
     private Long id;
-    private Long outerId;
-    private String code;
-    private String materialType;
-    private String packageType;
+    private String value;
+    private Date recordingTimeStamp;
+    private Long sensorId;
+    private Long packageId;
+
 }

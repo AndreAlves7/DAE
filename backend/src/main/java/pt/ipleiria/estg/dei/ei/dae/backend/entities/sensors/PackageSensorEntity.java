@@ -21,6 +21,8 @@ import java.util.List;
 @Table(name = "package_sensor_link")
 @IdClass(PackageSensorId.class)
 public class PackageSensorEntity implements Serializable {
+    @EmbeddedId
+    private PackageSensorId id;
 
     @Id
     @ManyToOne
