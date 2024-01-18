@@ -2,10 +2,12 @@ package pt.ipleiria.estg.dei.ei.dae.backend.ejbs;
 
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.TypedQuery;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderPackageEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.ProductEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.SensorEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageType;
@@ -126,5 +128,14 @@ public class PackageBean extends AbstractBean<PackageEntity> {
         update(innerPackage);
 
         return PACKAGE_ASSOCIATION_SUCCESSFUL;
+    }
+
+    public List<PackageEntity> findAllByProductId(Long productId) {
+        TypedQuery<PackageEntity> query = em.createQuery(
+                "SELECT pack FROM PackageEntity pack " +
+                        "WHERE pack.product.id = :productId", PackageEntity.class);
+        query.setParameter("productId", productId);
+
+        return new ArrayList<>(query.getResultList());
     }
 }

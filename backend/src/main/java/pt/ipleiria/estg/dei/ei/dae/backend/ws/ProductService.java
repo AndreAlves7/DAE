@@ -1,15 +1,21 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ws;
 
 import jakarta.ejb.EJB;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceException;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import pt.ipleiria.estg.dei.ei.dae.backend.dto.PackageDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.ProductDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.PackageBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.ProductBean;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.ProductEntity;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("products")
 @Produces(MediaType.APPLICATION_JSON)
@@ -18,6 +24,8 @@ public class ProductService extends AbstractService<ProductEntity,ProductDTO> {
 
     @EJB
     protected ProductBean productBean;
+    @EJB
+    protected PackageBean packageBean;
 
     @Override
     protected AbstractBean<ProductEntity> getBean() {
@@ -32,11 +40,27 @@ public class ProductService extends AbstractService<ProductEntity,ProductDTO> {
     @Override
     protected ProductDTO convertToDto(ProductEntity productEntity) {
 
-        return new ProductDTO(productEntity.getId(),productEntity.getCode(), productEntity.getPhotoBase64()) ;
+        return new ProductDTO(productEntity.getId(),productEntity.getCode(), productEntity.getPhotoBase64(), null) ;
     }
 
     @Override
     protected void copyDtoToEntity(ProductDTO productDTO, ProductEntity productEntity) {
         productEntity.setCode(productDTO.getCode());
+    }
+
+    @PATCH
+    public Response associatePackage(ProductDTO productDTO){
+        Long productId = productDTO.getId();
+        Long packageId = productDTO.getPackageId();
+
+        try {
+            productBean.associateProductToPackage(productId, packageId);
+            return Response.status(Response.Status.OK).build();
+
+        }catch (EntityNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        } catch (PersistenceException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

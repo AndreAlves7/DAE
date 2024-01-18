@@ -1,18 +1,22 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ws;
 
 import jakarta.ejb.EJB;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.PackageDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.PackageBean;
+import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.ProductBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageMaterialType;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("packages")
 @Produces(MediaType.APPLICATION_JSON)
@@ -81,4 +85,21 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
         }
     }
 
+    @GET
+    @Path("product/{id}")
+    public Response findPackagesByProducts(@PathParam("id") Long productId){
+
+        try {
+            List<PackageEntity> productPackages = packageBean.findAllByProductId(productId);
+
+            List<PackageDTO> dtos = productPackages.stream()
+                    .map(this::convertToDto)
+                    .collect(Collectors.toList());
+
+            return Response.status(Response.Status.OK).entity(dtos).build();
+
+        } catch (PersistenceException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

@@ -12,4 +12,5 @@ public class ProductDTO {
     private Long id;
     private String code;
     private String photoBase64;
+    private Long packageId;
 }
