@@ -1,4 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ejbs;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Date;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorReadingsEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.UserType;
@@ -40,7 +43,7 @@ public class ConfigBean {
 
 
     @PostConstruct
-    public void populateDB(){
+    public void populateDB() {
         //ORDER IS IMPORTANT
 
         //FIRST STEP ===========
@@ -80,13 +83,14 @@ public class ConfigBean {
         }
     }
 
-    private void populateProducts(){
+    private void populateProducts() {
         for (int i = 1; i <= 10; i++) {
             ProductEntity product = new ProductEntity();
             product.setCode("Product" + i);
             product.setName("ProductName" + i);
             product.setDescription("ProductDescription" + i);
-            product.setPhotoBase64("Product Photo" + i);
+
+            product.setPhotoBase64("https://i5.walmartimages.com/seo/Great-Value-Whole-Vitamin-D-Milk-Gallon-128-fl-oz_6a7b09b4-f51d-4bea-a01c-85767f1b481a.86876244397d83ce6cdedb030abe6e4a.jpeg?odnHeight=640&odnWidth=640&odnBg=FFFFFF");
 
             product.setPackageEntity(Collections.singletonList(packageBean.find((long ) i)));
 
