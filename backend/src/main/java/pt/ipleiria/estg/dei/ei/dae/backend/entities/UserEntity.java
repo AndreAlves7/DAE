@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.backend.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.ws.rs.DefaultValue;
 import lombok.Getter;
 import lombok.Setter;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.UserType;

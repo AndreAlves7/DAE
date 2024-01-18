@@ -37,13 +37,6 @@ public class ConfigBean {
 
     @PostConstruct
     public void populateDB(){
-
-        UserEntity user1 = new UserEntity("test1", "Test User 1", "123", "test1@mail.pt");
-        userBean.create(user1);
-
-        UserEntity user2 = new UserEntity("test2", "Test User 2", "123", "test2@mail.pt");
-        userBean.create(user2);
-
         //ORDER IS IMPORTANT
 
         //FIRST STEP ===========
@@ -62,10 +55,11 @@ public class ConfigBean {
 
     private void populateUsers(){
         for (int i = 1; i <= 10; i++) {
-            UserEntity user = new UserEntity();
-            user.setUserName("User" + i);
-            user.setPassword("Password" + i);
-            user.setUserType(UserType.MANUFACTURER);
+            String username = "User" + i;
+            String name = "User" + i;
+            String password = "Password" + i;
+            String email = "User" + i + "@mail.pt";
+            UserEntity user = new UserEntity(username, name, password, email);
 
             userBean.create(user);
         }
