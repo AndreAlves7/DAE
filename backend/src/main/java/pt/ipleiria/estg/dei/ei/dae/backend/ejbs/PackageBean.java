@@ -6,25 +6,22 @@ import jakarta.persistence.TypedQuery;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderPackageEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
-import pt.ipleiria.estg.dei.ei.dae.backend.entities.ProductEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.SensorEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageType;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Stateless
 public class PackageBean extends AbstractBean<PackageEntity> {
     public PackageBean() {
         super(PackageEntity.class);
     }
-
+    public static final String PACKAGE_ASSOCIATION_SUCCESSFUL = "Package association successful";
     @EJB
     private ProductBean productBean;
-
     @EJB
     private SensorBean sensorBean;
     @EJB
@@ -106,5 +103,28 @@ public class PackageBean extends AbstractBean<PackageEntity> {
         query.setParameter("orderId", orderId);
 
         return new ArrayList<>(query.getResultList());
+    }
+
+    public String associateOuterPackage(Long innerPackageId, Long outerPackageId) {
+        PackageEntity innerPackage = find(innerPackageId);
+        PackageEntity outerPackage = find(outerPackageId);
+
+        if (innerPackage == null || outerPackage == null) {
+            return "Packages are null";
+        }
+
+        if (innerPackage.getPackageType() == PackageType.TRANSPORT) {
+            return "Inner package can not be a Transport package";
+        }
+
+        if (outerPackage.getPackageType().ordinal() - innerPackage.getPackageType().ordinal() != 1) {
+            return "Outer package must be Of an higher type than inner package";
+        }
+
+        innerPackage.setOuterPackage(outerPackage);
+
+        update(innerPackage);
+
+        return PACKAGE_ASSOCIATION_SUCCESSFUL;
     }
 }

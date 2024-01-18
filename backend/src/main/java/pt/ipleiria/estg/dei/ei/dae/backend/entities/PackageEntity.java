@@ -35,7 +35,7 @@ public class PackageEntity extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name = "outer_package_id")
-    private PackageEntity outerPackageId;
+    private PackageEntity outerPackage;
 
     @OneToMany(mappedBy = "packageEntity", cascade = CascadeType.REMOVE)
     private List<OrderPackageEntity> orderPackages;

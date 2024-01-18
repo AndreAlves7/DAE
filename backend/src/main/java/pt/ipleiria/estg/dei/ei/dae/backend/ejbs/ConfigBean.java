@@ -1,5 +1,4 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ejbs;
-import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorEntity;
 import java.util.Date;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorReadingsEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.UserType;
@@ -100,7 +99,7 @@ public class ConfigBean {
             packageEntity.setPackageType(PackageType.PRIMARY);
 
             packageEntity.setProduct(productBean.find((long ) i));
-            packageEntity.setOuterPackageId(null);
+            packageEntity.setOuterPackage(null);
 
             packageBean.create(packageEntity);
         }
