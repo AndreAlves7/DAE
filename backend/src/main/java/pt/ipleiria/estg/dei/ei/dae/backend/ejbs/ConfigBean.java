@@ -15,6 +15,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.UserEntity;
 
 @Singleton
 @Startup
@@ -58,10 +59,11 @@ public class ConfigBean {
 
     private void populateUsers(){
         for (int i = 1; i <= 10; i++) {
-            UserEntity user = new UserEntity();
-            user.setUserName("User" + i);
-            user.setPassword("Password" + i);
-            user.setUserType(UserType.MANUFACTURER);
+            String username = "User" + i;
+            String name = "User" + i;
+            String password = "Password" + i;
+            String email = "User" + i + "@mail.pt";
+            UserEntity user = new UserEntity(username, name, password, email);
 
             userBean.create(user);
         }

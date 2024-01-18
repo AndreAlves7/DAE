@@ -11,6 +11,7 @@ import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.PackageBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.ProductBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.security.Authenticated;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageMaterialType;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageType;
 
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @Path("packages")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Authenticated
 public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
 
     public static final String PACKAGE_ASSOCIATION_SUCCESSFUL = "Package association successful";

@@ -10,7 +10,7 @@ import java.util.Date;
 @MappedSuperclass
 @Getter
 @Setter
-public abstract class AbstractEntity implements Serializable {
+public abstract class AbstractEntity extends Versionable implements Serializable {
 
     protected abstract void onCreate();
     @Id

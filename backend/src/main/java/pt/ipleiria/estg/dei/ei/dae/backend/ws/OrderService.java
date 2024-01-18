@@ -10,6 +10,7 @@ import pt.ipleiria.estg.dei.ei.dae.backend.dto.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.OrderBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.security.Authenticated;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.Map;
 @Path("orders")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Authenticated
 public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
     @EJB
     protected OrderBean orderBean;
@@ -34,7 +36,7 @@ public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
 
     @Override
     protected OrderDTO convertToDto(OrderEntity entity) {
-        return new OrderDTO(null, entity.getCode(), null);
+        return new OrderDTO(entity.getId(), entity.getCode(), null);
     }
 
     @Override

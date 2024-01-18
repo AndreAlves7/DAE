@@ -13,6 +13,7 @@ import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.PackageBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.ProductBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.ProductEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.security.Authenticated;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @Path("products")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Authenticated
 public class ProductService extends AbstractService<ProductEntity,ProductDTO> {
 
     @EJB
