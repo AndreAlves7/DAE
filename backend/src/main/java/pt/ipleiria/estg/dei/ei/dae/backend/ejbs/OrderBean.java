@@ -51,5 +51,4 @@ public class OrderBean extends AbstractBean<OrderEntity>{
         }
     }
 
-
 }

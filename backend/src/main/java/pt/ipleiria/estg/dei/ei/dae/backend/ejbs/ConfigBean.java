@@ -1,4 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ejbs;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Date;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorReadingsEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.UserType;
@@ -40,7 +43,7 @@ public class ConfigBean {
 
 
     @PostConstruct
-    public void populateDB(){
+    public void populateDB() {
         //ORDER IS IMPORTANT
 
         //FIRST STEP ===========
@@ -80,11 +83,14 @@ public class ConfigBean {
         }
     }
 
-    private void populateProducts(){
+    private void populateProducts() {
         for (int i = 1; i <= 10; i++) {
             ProductEntity product = new ProductEntity();
             product.setCode("Product" + i);
-            product.setPhotoBase64("Product Photo" + i);
+            product.setName("ProductName" + i);
+            product.setDescription("ProductDescription" + i);
+
+            product.setPhotoBase64("https://img.freepik.com/premium-vector/piece-cheese-pizza-pixel-art-style_475147-1272.jpg?w=740");
 
             product.setPackageEntity(Collections.singletonList(packageBean.find((long ) i)));
 

@@ -11,6 +11,8 @@ import lombok.Setter;
 public class ProductDTO {
     private Long id;
     private String code;
+    private String name;
+    private String description;
     private String photoBase64;
     private Long packageId;
 }
