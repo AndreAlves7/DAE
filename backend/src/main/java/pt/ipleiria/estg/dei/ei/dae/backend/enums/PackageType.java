@@ -1,10 +1,10 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.enums;
 
 public enum PackageType {
-    PRIMARY(1, "Primary packaging"),
-    SECONDARY(2, "Secondary packaging"),
-    TERTIARY(3, "Tertiary packaging"),
-    TRANSPORT(4, "Transport packaging");
+    PRIMARY(1, "TRANSPORT"),
+    SECONDARY(2, "SECONDARY"),
+    TERTIARY(3, "TERTIARY"),
+    TRANSPORT(4, "TRANSPORT");
 
 
     private final int code;

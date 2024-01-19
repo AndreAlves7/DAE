@@ -5,6 +5,9 @@ import axios from 'axios';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 
 const products = ref([]);
@@ -21,6 +24,12 @@ onMounted(async () => {
   }
 });
 
+
+const editClick = (id) => {
+  console.log(id);
+  router.push({ name: 'UpdateProduct', params: { id: id } });
+}
+
 watch(selectedProduct, () => {
   console.log(selectedProduct.value)
 }) 
@@ -29,11 +38,15 @@ watch(selectedProduct, () => {
 </script>
 
 <template>
+
      <div class="container">
         <div class="col-100">
             <br>
             <br>
             <br>
+            <button class="btn btn-sm btn-primary" @click="router.push({ name: 'createProduct' })">
+      Adicionar Produto
+    </button>
     <DataTable v-model:selection="selectedProduct" :value="products" 
         stateStorage="session" stateKey="table-products" paginator :rows="10" filterDisplay="menu"
         selectionMode="single" dataKey="id" :globalFilterFields="['name', 'type']">
