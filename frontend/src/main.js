@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
 import { BootstrapIconsPlugin } from 'bootstrap-icons-vue';
 import PrimeVue from 'primevue/config';
+import 'primevue/resources/themes/lara-light-green/theme.css'
+
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

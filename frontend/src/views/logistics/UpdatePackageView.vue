@@ -1,6 +1,6 @@
 <template>
     <div class="edit-product">
-        <h1>Editar Produto</h1>
+        <h1>Edit Package</h1>
         <form @submit.prevent="submitForm">
 
             <div class="form-group">
@@ -34,6 +34,12 @@
                     <option v-for="product in products" :key="product.id" :value="product.id">{{ product.name }}</option>
                 </select>
             </div>
+
+            <div class="form-group">
+                <label for="sensors">Sensores</label>
+                <MultiSelect v-model="package_.sensors" :options="allSensors" :optionLabel="sensor => sensor.name" />
+            </div>
+
             
 
             <button type="submit">Salvar</button>
@@ -47,9 +53,14 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
+import MultiSelect from 'primevue/multiselect';
+
+
+const allSensors = ref([]);
 
 const package_ = ref({
     code: '',
+    id: '',
     materialType: '',
     packageType: '',
     product: {
@@ -58,7 +69,8 @@ const package_ = ref({
         description: '',
         code: '',
         photoBase64: ''
-    }
+    },
+    sensors: []
 });
 
 const products = ref([]);
@@ -71,6 +83,9 @@ onMounted(async () => {
     package_.value = response.data;
     const response2 = await axios.get(`/products`);
     products.value = response2.data;
+
+    const response3 = await axios.get(`/sensors`);
+    allSensors.value = response3.data;
 });
 
 async function submitForm() {
@@ -80,7 +95,9 @@ async function submitForm() {
         packageType: package_.value.packageType,
         product: {
             id: package_.value.product.id
-        }
+        },
+        sensors: package_.value.sensors,
+        id: package_.value.id
     });
 
     if (response.status === 200) {

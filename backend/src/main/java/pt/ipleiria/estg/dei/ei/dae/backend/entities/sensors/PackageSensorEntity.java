@@ -36,4 +36,10 @@ public class PackageSensorEntity implements Serializable {
 
     @OneToMany(mappedBy = "packageSensorEntity")
     private List<PackageSensorReadingsEntity> readings;
+
+    public PackageSensorEntity(PackageEntity packageEntity, SensorEntity sensorEntity) {
+        this.packageEntity = packageEntity;
+        this.sensorEntity = sensorEntity;
+        this.id = new PackageSensorId(packageEntity.getId(), sensorEntity.getId());
+    }
 }

@@ -39,6 +39,7 @@ public class PackageEntity extends AbstractEntity {
 
     @OneToMany(mappedBy = "packageEntity", cascade = CascadeType.REMOVE)
     private List<OrderPackageEntity> orderPackages;
+
     @OneToMany(mappedBy = "packageEntity", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<PackageSensorEntity> packageSensors;
 

@@ -9,9 +9,7 @@ import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.PackageDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.ProductDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.SensorDTO;
-import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
-import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.PackageBean;
-import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.ProductBean;
+import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.*;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.ProductEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorEntity;
@@ -37,6 +35,9 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
     @EJB
     protected ProductBean productBean;
 
+    @EJB
+    protected PackageSensorBean packageSensorBean;
+
     @Override
     protected AbstractBean<PackageEntity> getBean() {
         return packageBean;
@@ -47,7 +48,9 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
         PackageMaterialType materialType = PackageMaterialType.valueOf(packageDTO.getMaterialType().toUpperCase());
         PackageType packageType = PackageType.valueOf(packageDTO.getPackageType().toUpperCase());
 
-        return new PackageEntity(packageDTO.getCode(), materialType, packageType, null, null, null, null);
+        ProductEntity product = productBean.find(packageDTO.getProduct().getId());
+
+        return new PackageEntity(packageDTO.getCode(), materialType, packageType, product, null, null, null);
     }
 
 
@@ -84,6 +87,12 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
         ProductEntity product = productBean.find(packageDTO.getProduct().getId());
         packageEntity.setProduct(product);
 
+        //add sensors to package
+        List<Long> sensorIds = packageDTO.getSensors().stream()
+                .map(SensorDTO::getId)
+                .collect(Collectors.toList());
+
+        packageSensorBean.setSensorsToPackage(packageEntity.getId(), sensorIds);
     }
 
     @GET
