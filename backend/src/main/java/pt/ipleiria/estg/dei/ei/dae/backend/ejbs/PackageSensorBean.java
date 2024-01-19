@@ -6,6 +6,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import jakarta.persistence.TypedQuery;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.compositeKeys.PackageSensorId;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.SensorEntity;
 
@@ -42,23 +43,35 @@ public class PackageSensorBean extends AbstractBean<PackageSensorEntity>{
         }
     }
 
-    public boolean setSensorsToPackage(Long packageId, List<Long> sensorIds) {
+    public void setSensorsToPackage(Long packageId, List<Long> sensorIds) {
         PackageEntity packageEntity = packageBean.find(packageId);
         if (packageEntity == null) {
-            return false;
+            return;
         }
 
         //clear all sensors from package
         List<PackageSensorEntity> packageSensorEntities = packageEntity.getPackageSensors();
         if (packageSensorEntities != null) {
             for (PackageSensorEntity packageSensorEntity : packageSensorEntities) {
-                delete((long)packageSensorEntity.getId().hashCode());
+                PackageSensorId packageSensorId = new PackageSensorId(packageEntity.getId(), packageSensorEntity.getSensorEntity().getId());
+
+                //todo: fix this
+                //todo: remove all readings from this packageSensorEntity
+
+                PackageSensorEntity entity = find(packageSensorId);
+                if (entity != null) {
+                    em.remove(entity);
+                }
             }
+        }
+
+        if (sensorIds == null || sensorIds.isEmpty()) {
+            return;
         }
 
         List<SensorEntity> sensorEntities = sensorBean.findAllById(sensorIds);
         if (sensorEntities == null) {
-            return false;
+            return;
         }
 
         for (SensorEntity sensorEntity : sensorEntities) {
@@ -66,6 +79,5 @@ public class PackageSensorBean extends AbstractBean<PackageSensorEntity>{
             create(packageSensorEntity);
         }
 
-        return true;
     }
 }
