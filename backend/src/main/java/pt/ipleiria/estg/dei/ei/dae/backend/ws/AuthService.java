@@ -3,14 +3,15 @@ package pt.ipleiria.estg.dei.ei.dae.backend.ws;
 import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.AuthDTO;
+import pt.ipleiria.estg.dei.ei.dae.backend.dto.UserDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.UserBean;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.UserEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.security.Authenticated;
+import pt.ipleiria.estg.dei.ei.dae.backend.security.TokenDecoder;
 import pt.ipleiria.estg.dei.ei.dae.backend.security.TokenIssuer;
 
 @Path("auth")
@@ -31,5 +32,22 @@ public class AuthService {
             return Response.ok(token).build();
         }
         return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    @GET
+    @Path("me")
+    @Authenticated
+    public Response getAuthUser(@HeaderParam("Authorization") String token) {
+        TokenDecoder tokenDecoder = new TokenDecoder();
+        String username = tokenDecoder.getUsernameFromToken(token);
+        UserEntity user = userBean.findByUsername(username);
+        if(user != null) {
+            UserDTO userDTO = new UserDTO(user.getUsername(), user.getName(),
+                    user.getEmail(), user.getUserType().getCode());
+            return Response.ok(userDTO).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND)
+                .entity("ERROR_FINDING_USER")
+                .build();
     }
 }
