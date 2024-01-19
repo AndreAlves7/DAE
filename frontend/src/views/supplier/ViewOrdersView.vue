@@ -1,5 +1,5 @@
 <script setup>
-import {  ref, onMounted } from "vue";
+import {  ref, onMounted , watch} from "vue";
 import { BIconSearch, BIconTrash } from 'bootstrap-icons-vue'
 import axios from 'axios';
 import DataTable from 'primevue/datatable';
@@ -10,6 +10,12 @@ import InputText from 'primevue/inputtext';
 
 const orders = ref([]);
 
+const products = ref([]);
+const selectedOrder = ref([]);
+
+watch(selectedOrder, () => {
+  console.log(selectedOrder.value)
+}) 
 
 onMounted(async () => {
   try {
@@ -27,9 +33,9 @@ onMounted(async () => {
   <div class="container">
     <div class="col-100">
       <br><br><br>
-      <DataTable v-model:selection="orders" :value="orders" 
+      <DataTable v-model:selection="selectedOrder" :value="orders" 
         stateStorage="session" stateKey="table-orders" paginator :rows="10" filterDisplay="menu"
-        selectionMode="none" dataKey="id" :globalFilterFields="['code']">
+        selectionMode="single" dataKey="id" :globalFilterFields="['code']">
         <Column field="code" header="Code" sortable filterMatchMode="contains" style="width: 40%">
           <template #body="{ data }">
             <div class="flex align-items-center gap-2">
