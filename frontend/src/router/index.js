@@ -73,8 +73,8 @@ router.beforeEach(async (to, from, next) => {
     await userStore.restoreToken()
   }
 
-  if (to.name == 'login' && !userStore.user) {
-    next({ name: 'login' })
+  if(userStore.user && to.name == 'login'){
+    next({ name: 'dashboard' })
     return
   }
   next()
