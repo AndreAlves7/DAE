@@ -5,6 +5,11 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue')
+    },
+    {
       path: '/',
       name: 'home',
       component: HomeView
@@ -39,5 +44,26 @@ const router = createRouter({
     }
   ]
 })
+
+// router.beforeEach(async (to, from, next) => {
+//   const userStore = useUserStore()
+//   if (handlingFirstRoute) {
+//     handlingFirstRoute = false
+//     await userStore.restoreToken()
+//   }
+//   if ((to.name == 'Login') || (to.name == 'Signup')) {
+//     next()
+//     return
+//   }
+//   if (!userStore.user) {
+//     next({ name: 'Login' })
+//     return
+//   }
+//   if(userStore.userType == 'A' && (to.name == 'home')) {
+//       next({name: 'Vcards'})
+//       return
+//   }
+//   next()
+// })
 
 export default router

@@ -14,6 +14,7 @@ const apiDomain = 'http://localhost:8080'
 axios.defaults.baseURL = apiDomain + '/backend/api'
 axios.defaults.headers.common['Content-type'] = 'application/json'
 
+
 app.use(createPinia())
 app.use(router)
 
