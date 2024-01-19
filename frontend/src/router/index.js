@@ -1,14 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from "../stores/user.js"
+
 import HomeView from '../views/HomeView.vue'
+import LoginView from '../views/LoginView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    // {
-    //   path: '/login',
-    //   name: 'login',
-    //   component: () => import('../views/LoginView.vue')
-    // },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView
+    },
     {
       path: '/',
       name: 'home',
@@ -59,25 +62,22 @@ const router = createRouter({
   ]
 })
 
-// router.beforeEach(async (to, from, next) => {
-//   const userStore = useUserStore()
-//   if (handlingFirstRoute) {
-//     handlingFirstRoute = false
-//     await userStore.restoreToken()
-//   }
-//   if ((to.name == 'Login') || (to.name == 'Signup')) {
-//     next()
-//     return
-//   }
-//   if (!userStore.user) {
-//     next({ name: 'Login' })
-//     return
-//   }
-//   if(userStore.userType == 'A' && (to.name == 'home')) {
-//       next({name: 'Vcards'})
-//       return
-//   }
-//   next()
-// })
+
+let handlingFirstRoute = true
+
+router.beforeEach(async (to, from, next) => {
+  const userStore = useUserStore()
+  
+  if (handlingFirstRoute) {
+    handlingFirstRoute = false
+    await userStore.restoreToken()
+  }
+
+  if (to.name == 'login' && !userStore.user) {
+    next({ name: 'login' })
+    return
+  }
+  next()
+})
 
 export default router
