@@ -92,6 +92,13 @@ const clickMenuOption = () => {
               </router-link>
             </li>
             <li class="nav-item">
+              <router-link class="nav-link" :class="{ active: $route.name === 'ViewPackages' }"
+                          :to="{ name: 'ViewPackages' }" @click="clickMenuOption">
+                <i class="bi bi-house"></i>
+                Packages
+              </router-link>
+            </li>
+            <li class="nav-item">
               <!-- <router-link class="nav-link" :class="{ active: $route.name === 'MakeTransaction' }"
                           :to="{ name: 'MakeTransaction' }" @click="clickMenuOption">
                 <i class="bi bi-house"></i>

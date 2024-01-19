@@ -1,13 +1,17 @@
 <script setup>
-import {  ref, onMounted } from "vue";
+import {  ref, onMounted , watch} from "vue";
 import { BIconSearch, BIconTrash } from 'bootstrap-icons-vue'
 import axios from 'axios';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 
 const products = ref([]);
+const selectedProduct = ref([]);
 
 
 onMounted(async () => {
@@ -21,18 +25,31 @@ onMounted(async () => {
 });
 
 
+const editClick = (id) => {
+  console.log(id);
+  router.push({ name: 'UpdateProduct', params: { id: id } });
+}
+
+watch(selectedProduct, () => {
+  console.log(selectedProduct.value)
+}) 
+
 
 </script>
 
 <template>
+
      <div class="container">
         <div class="col-100">
             <br>
             <br>
             <br>
-    <DataTable v-model:selection="products" :value="products" 
+            <button class="btn btn-sm btn-primary" @click="router.push({ name: 'createProduct' })">
+      Adicionar Produto
+    </button>
+    <DataTable v-model:selection="selectedProduct" :value="products" 
         stateStorage="session" stateKey="table-products" paginator :rows="10" filterDisplay="menu"
-        selectionMode="none" dataKey="id" :globalFilterFields="['name', 'type']">
+        selectionMode="single" dataKey="id" :globalFilterFields="['name', 'type']">
         <!-- <template #header>
             <span class="p-input-icon-left">
                 <InputText v-model="filters['global'].value" placeholder="Search" />

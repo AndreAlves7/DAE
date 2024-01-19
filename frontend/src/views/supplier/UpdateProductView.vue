@@ -48,14 +48,14 @@ onMounted(async () => {
 
 async function submitForm() {
     const response = await axios.put(`/products/${route.params.id}`, {
-        // name: product.value.name,
-        // description: product.value.description,
+        name: product.value.name,
+        description: product.value.description,
         code: product.value.code,
         photoBase64: product.value.photoBase64
     });
 
     if (response.status === 200) {
-        router.push('/products');
+        router.push({ name: 'ViewProducts'});
     }
 }
 
@@ -72,3 +72,10 @@ function handlePhotoChange(event) {
 
 
 </script>
+
+<style scoped>
+    img{
+        width: 500px;
+        object-fit: contain;
+    }
+</style>

@@ -19,7 +19,7 @@ import java.util.Map;
 @Path("orders")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Authenticated
+//@Authenticated
 public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
     @EJB
     protected OrderBean orderBean;

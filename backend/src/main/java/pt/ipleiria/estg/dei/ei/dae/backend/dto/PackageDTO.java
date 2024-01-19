@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,4 +16,6 @@ public class PackageDTO {
     private String code;
     private String materialType;
     private String packageType;
+    private ProductDTO product;
+    private List<SensorDTO> sensors;
 }

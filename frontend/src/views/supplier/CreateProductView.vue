@@ -37,6 +37,7 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import router from '@/router';
 
 const product = ref({
   name: '',
@@ -58,8 +59,9 @@ async function addProduct() {
     submittedProduct.value = response.data;
   }
 
-
   submittedProduct.value = { ...product.value };
+
+  router.push({ name: 'ViewProducts' });
 }
 
 function convertToBase64(event) {
@@ -76,4 +78,7 @@ function convertToBase64(event) {
 
 <style>
 /* Adicione aqui os estilos desejados */
+  img{
+    width: 500px;
+  }
 </style>

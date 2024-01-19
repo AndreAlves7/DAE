@@ -4,11 +4,11 @@ import HomeView from '../views/HomeView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('../views/LoginView.vue')
-    },
+    // {
+    //   path: '/login',
+    //   name: 'login',
+    //   component: () => import('../views/LoginView.vue')
+    // },
     {
       path: '/',
       name: 'home',
@@ -39,12 +39,22 @@ const router = createRouter({
     },    {
       path: '/vieworders',
       name: 'ViewOrders',
-      component: () => import('../views/supplier/ViewOrdersView.vue')
+      component: () => import('../views/logistics/ViewOrdersView.vue')
     },
     {
       path: '/updateproduct/:id',
       name: 'UpdateProduct',
       component: () => import('../views/supplier/UpdateProductView.vue'),
+    },
+    {
+      path: '/viewpackages',
+      name: 'ViewPackages',
+      component: () => import('../views/logistics/ViewPackagesView.vue')
+    },
+    {
+      path: '/updatepackage/:id',
+      name: 'UpdatePackage',
+      component: () => import('../views/logistics/UpdatePackageView.vue'),
     }
   ]
 })

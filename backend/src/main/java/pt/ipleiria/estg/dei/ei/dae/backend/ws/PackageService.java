@@ -7,10 +7,13 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.PackageDTO;
-import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
-import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.PackageBean;
-import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.ProductBean;
+import pt.ipleiria.estg.dei.ei.dae.backend.dto.ProductDTO;
+import pt.ipleiria.estg.dei.ei.dae.backend.dto.SensorDTO;
+import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.*;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.ProductEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.SensorEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.security.Authenticated;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageMaterialType;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.PackageType;
@@ -22,12 +25,18 @@ import java.util.stream.Collectors;
 @Path("packages")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Authenticated
+//@Authenticated
 public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
 
     public static final String PACKAGE_ASSOCIATION_SUCCESSFUL = "Package association successful";
     @EJB
     protected PackageBean packageBean;
+
+    @EJB
+    protected ProductBean productBean;
+
+    @EJB
+    protected PackageSensorBean packageSensorBean;
 
     @Override
     protected AbstractBean<PackageEntity> getBean() {
@@ -39,13 +48,30 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
         PackageMaterialType materialType = PackageMaterialType.valueOf(packageDTO.getMaterialType().toUpperCase());
         PackageType packageType = PackageType.valueOf(packageDTO.getPackageType().toUpperCase());
 
-        return new PackageEntity(packageDTO.getCode(), materialType, packageType, null, null, null, null);
+        ProductEntity product = productBean.find(packageDTO.getProduct().getId());
+
+        return new PackageEntity(packageDTO.getCode(), materialType, packageType, product, null, null, null);
     }
 
 
     @Override
     protected PackageDTO convertToDto(PackageEntity packageEntity) {
-        return new PackageDTO(packageEntity.getId(), null,packageEntity.getCode(), packageEntity.getPackageMaterial().getDescription(), packageEntity.getPackageType().getDescription());
+        ProductEntity product = packageEntity.getProduct();
+        ProductDTO productDTO = null;
+        if(product != null){
+            productDTO = new ProductDTO(product.getId(),product.getName(), product.getDescription(),product.getCode(), product.getPhotoBase64(), null) ;
+        }
+
+        List<PackageSensorEntity> sensors = packageEntity.getPackageSensors();
+        //get all sensors from package
+        List<SensorDTO> sensorDTOS = new ArrayList<>();
+        if(sensors != null){
+             sensorDTOS = sensors.stream()
+                    .map(sensor -> new SensorDTO(sensor.getSensorEntity().getId(), sensor.getSensorEntity().getName()))
+                    .collect(Collectors.toList());
+        }
+
+        return new PackageDTO(packageEntity.getId(), null,packageEntity.getCode(), packageEntity.getPackageMaterial().getDescription(), packageEntity.getPackageType().getDescription(), productDTO, sensorDTOS);
     }
 
     @Override
@@ -58,6 +84,15 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
         packageEntity.setPackageMaterial(materialType);
         packageEntity.setPackageType(packageType);
 
+        ProductEntity product = productBean.find(packageDTO.getProduct().getId());
+        packageEntity.setProduct(product);
+
+        //add sensors to package
+        List<Long> sensorIds = packageDTO.getSensors().stream()
+                .map(SensorDTO::getId)
+                .collect(Collectors.toList());
+
+        packageSensorBean.setSensorsToPackage(packageEntity.getId(), sensorIds);
     }
 
     @GET
