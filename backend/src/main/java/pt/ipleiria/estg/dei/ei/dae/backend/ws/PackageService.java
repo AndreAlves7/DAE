@@ -87,12 +87,6 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
         ProductEntity product = productBean.find(packageDTO.getProduct().getId());
         packageEntity.setProduct(product);
 
-        //add sensors to package
-        List<Long> sensorIds = packageDTO.getSensors().stream()
-                .map(SensorDTO::getId)
-                .collect(Collectors.toList());
-
-        packageSensorBean.setSensorsToPackage(packageEntity.getId(), sensorIds);
     }
 
     @GET
@@ -138,5 +132,17 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
         } catch (PersistenceException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @Override
+    public Response update(Long id, PackageDTO packageDTO) {
+        //add sensors to package
+        List<Long> sensorIds = packageDTO.getSensors().stream()
+                .map(SensorDTO::getId)
+                .collect(Collectors.toList());
+
+        packageSensorBean.setSensorsToPackage(packageDTO.getId(), sensorIds);
+
+        return super.update(id, packageDTO);
     }
 }

@@ -34,7 +34,7 @@ public class PackageSensorEntity implements Serializable {
     @JoinColumn(name = "sensor_id")
     private SensorEntity sensorEntity;
 
-    @OneToMany(mappedBy = "packageSensorEntity")
+    @OneToMany(mappedBy = "packageSensorEntity", cascade = CascadeType.REMOVE)
     private List<PackageSensorReadingsEntity> readings;
 
     public PackageSensorEntity(PackageEntity packageEntity, SensorEntity sensorEntity) {
