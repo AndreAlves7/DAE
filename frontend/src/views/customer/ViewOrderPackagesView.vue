@@ -57,10 +57,12 @@ const deleteClick = async (id) => {
       <br><br><br>
 
       <div class="flex align-items-center gap-2">
-        <h1 class="flex-grow">Packages</h1>
-        <button class="btn btn-sm btn-primary" @click="router.push({ name: 'CreatePackage' })">
+
+        
+        <h1 class="flex-grow">Packages of Order {{ $route.params.orderId }}</h1>
+        <!-- <button class="btn btn-sm btn-primary" @click="router.push({ name: 'CreatePackage' })">
           Create Package
-        </button>
+        </button> -->
         <br><br>
       </div>
       <DataTable v-model:selection="selectedPackage" :value="packages" 
@@ -92,6 +94,7 @@ const deleteClick = async (id) => {
             </div>
           </template>
         </Column>
+        
         <template #empty>No orders found.</template>
       </DataTable>
     </div>
