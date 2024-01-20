@@ -43,13 +43,11 @@ public class SensorService extends AbstractService<SensorEntity, SensorDTO>{
 
     @Override
     protected SensorEntity convertToEntity(SensorDTO sensorDTO) {
-
         return new SensorEntity(sensorDTO.getName(), null);
     }
 
     @Override
     protected SensorDTO convertToDto(SensorEntity sensorEntity) {
-
         return new SensorDTO(sensorEntity.getId(),sensorEntity.getName()) ;
     }
 

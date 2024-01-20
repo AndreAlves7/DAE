@@ -1,6 +1,8 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ws;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.ejb.EJB;
+import jakarta.persistence.PersistenceException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -14,6 +16,7 @@ import pt.ipleiria.estg.dei.ei.dae.backend.security.Authenticated;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Authenticated
+@PermitAll
 public class UserService extends AbstractService<UserEntity, UserDTO>{
 
     @EJB
@@ -44,11 +47,26 @@ public class UserService extends AbstractService<UserEntity, UserDTO>{
     @Path("/{username}")
     public Response find(@PathParam("username") String username) {
         UserEntity user = userBean.findByUsername(username);
-        if(user != null){
-            return Response.ok(convertToDto(user)).build();
+        if (user == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
-        return Response.status(Response.Status.NOT_FOUND)
-                .entity("ERROR_FINDING_USER")
-                .build();
+        return Response.ok(convertToDto(user)).build();
+    }
+
+    @PUT
+    @Path("/{username}")
+    public Response update(@PathParam("username") String username, UserDTO userDTO) {
+        try {
+            UserEntity user = userBean.findByUsername(username);
+            if (user == null) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+            user = userBean.update(user);
+            return Response.ok(convertToDto(user)).build();
+        } catch (PersistenceException e) {
+            return Response.status(Response.Status.EXPECTATION_FAILED)
+                    .entity("Persistence error: " + e.getMessage())
+                    .build();
+        }
     }
 }

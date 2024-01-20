@@ -107,4 +107,10 @@ public class PackageSensorReadingsService extends AbstractService<PackageSensorR
         }
         return Response.status(Response.Status.CREATED).build();
     }
+
+    @Override
+    @RolesAllowed({"Manufacturer", "Operator"})
+    public Response delete(Long id) {
+        return super.delete(id);
+    }
 }

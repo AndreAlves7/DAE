@@ -52,7 +52,6 @@ public abstract class AbstractService<Entity,DTO> {
 
     @PUT
     @Path("/{id}")
-    @RolesAllowed({"Manufacturer", "Operator"})
     public Response update(@PathParam("id") Long id, DTO dto) {
         try {
             Entity entityToUpdate = getBean().find(id);
@@ -77,7 +76,6 @@ public abstract class AbstractService<Entity,DTO> {
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed({"Manufacturer", "Operator"})
     public Response delete(@PathParam("id") Long id) {
         try {
             Entity entityToDelete = getBean().

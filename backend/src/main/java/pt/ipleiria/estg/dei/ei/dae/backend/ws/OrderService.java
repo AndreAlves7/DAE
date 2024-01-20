@@ -55,6 +55,7 @@ public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
     }
 
     @PATCH
+    @RolesAllowed({"Consumer", "Operator"})
     public Response associateOuterPackage(OrderDTO packageDTO) {
         Long orderID = packageDTO.getId();
         Long outerPackageId = packageDTO.getOuterOrderId();
@@ -71,7 +72,7 @@ public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
     }
 
     @Override
-    @RolesAllowed({"Manufacturer", "Operator"})
+    @RolesAllowed({"Consumer", "Operator"})
     public Response create(OrderDTO orderDTO) {
         Response response;
         try {
@@ -85,6 +86,18 @@ public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
                     .build();
         }
         return response;
+    }
+
+    @Override
+    @RolesAllowed({"Consumer", "Operator"})
+    public Response update(Long id, OrderDTO orderDTO) {
+        return super.update(id, orderDTO);
+    }
+
+    @Override
+    @RolesAllowed({"Consumer", "Operator"})
+    public Response delete(Long id) {
+        return super.delete(id);
     }
 
     @Path("{id}/nopackage")
@@ -105,8 +118,8 @@ public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
 
     @POST
     @Path("{orderId}/packages")
-    @RolesAllowed({"Manufacturer", "Operator"})
-    public void associatePackagesToOrder(@PathParam("orderId") Long orderId, OrderDTO orderDTO){
+    @RolesAllowed({"Consumer", "Operator"})
+    public void associatePackagesToOrder(@PathParam("orderId") Long orderId, OrderDTO orderDTO) {
         orderBean.associatePackagesToOrder(orderId, orderDTO.getQuantityByPackageID());
     }
 }

@@ -29,7 +29,7 @@ public class UserDTO {
         return new UserDTO(user.getUsername(), user.getName(), user.getEmail(), user.getUserType().getCode());
     }
 
-    public static List<UserDTO> from(List<UserEntity> users){
+    public static List<UserDTO> from(List<UserEntity> users) {
         return users.stream().map(UserDTO::from).collect(Collectors.toList());
     }
 }

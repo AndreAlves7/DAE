@@ -103,18 +103,6 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
         return super.find(id);
     }
 
-//    @Override
-//    @RolesAllowed({"Manufacturer", "Operator"})
-//    public Response create(PackageDTO packageDTO) {
-//        return super.create(packageDTO);
-//    }
-//
-//    @Override
-//    @RolesAllowed({"Manufacturer", "Operator"})
-//    public Response delete(Long id) {
-//        return super.delete(id);
-//    }
-
     @GET
     @Path("order/{id}")
     public List<PackageDTO> findAllByOrderId(@PathParam("id") Long orderId) {
@@ -128,8 +116,7 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
 
     @GET
     @Path("product/{id}")
-    public Response findPackagesByProducts(@PathParam("id") Long productId){
-
+    public Response findPackagesByProducts(@PathParam("id") Long productId) {
         try {
             List<PackageEntity> productPackages = packageBean.findAllByProductId(productId);
 
@@ -145,7 +132,7 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
     }
 
     @Override
-//    @RolesAllowed({"Manufacturer", "Operator"})
+    @RolesAllowed({"Manufacturer", "Operator"})
     public Response update(Long id, PackageDTO packageDTO) {
         //add sensors to package
         List<Long> sensorIds = packageDTO.getSensors().stream()
@@ -155,5 +142,17 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
         packageSensorBean.setSensorsToPackage(packageDTO.getId(), sensorIds);
 
         return super.update(id, packageDTO);
+    }
+
+    @Override
+    @RolesAllowed({"Manufacturer", "Operator"})
+    public Response create(PackageDTO packageDTO) {
+        return super.create(packageDTO);
+    }
+
+    @Override
+    @RolesAllowed({"Manufacturer", "Operator"})
+    public Response delete(Long id) {
+        return super.delete(id);
     }
 }
