@@ -27,7 +27,6 @@ onMounted(async () => {
 });
 
 const formatTimestamp = (timestamp) => {
-  console.log('Timestamp:', timestamp); // Debugging line to check the timestamp value
   if (!timestamp) {
     return 'No timestamp provided'; // Fallback message
   }
@@ -64,6 +63,13 @@ const formatTimestamp = (timestamp) => {
           <template #body="{ data }">
             <div class="flex align-items-center gap-2">
               <span>{{ data.packageCode }}</span>
+            </div>
+          </template>
+        </Column>
+        <Column field="orderCode" header="Order Code" sortable filterMatchMode="contains" style="width: 40%">
+          <template #body="{ data }">
+            <div class="flex align-items-center gap-2">
+              <span>{{ data.orderCode }}</span>
             </div>
           </template>
         </Column>

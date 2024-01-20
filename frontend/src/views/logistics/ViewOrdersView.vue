@@ -75,8 +75,14 @@ const deleteClick = async (id) => {
         <Column header="Actions" style="width: 20%">
           <template #body="{ data }">
             <div class="p-2">
-              <button class="btn btn-sm btn-light" @click="editClick(data.id)">
+              <button class="btn btn-sm btn-light me-2" @click="router.push({ name: 'UpdateOrder', params: { orderId: data.id } });">
+                Associate Transport Order
                 <BIconPencil class="bi bi-xs" />
+              </button>
+              
+              <button class="btn btn-sm btn-info me-2" @click="router.push({ name: 'OrderChart', params: { orderId: data.id } });">
+                View Order Charts
+                <BIconSearch class="bi bi-xs" />
               </button>
               <button class="btn btn-sm btn-danger" @click="deleteClick(data.id)">
                 <BIconTrash class="bi bi-xs" />

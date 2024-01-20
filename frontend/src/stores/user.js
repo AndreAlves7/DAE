@@ -5,7 +5,23 @@ import { defineStore } from 'pinia'
 export const useUserStore = defineStore('user', () => {
 
     const user = ref(null)
-    const userType = computed(() => user.value?.user_type ?? 'Anonymous')
+
+    const userTypes = {
+        1: "Product manufacturer",
+        2: "Logistics operator",
+        3: "Final consumer"
+    }
+
+    const userType = computed(() => user.value?.type ?? 'Anonymous')
+
+    const isManufacturer = computed(() => userType.value === 1)
+    const isOperator = computed(() => userType.value === 2)
+    const isConsumer = computed(() => userType.value === 3)
+
+
+    // MANUFACTURER(1, "Product manufacturer"),
+    // OPERATOR(2, "Logistics operator"),
+    // CONSUMER(3, "Final consumer");
 
     async function loadUser() {
         try {
@@ -68,6 +84,10 @@ export const useUserStore = defineStore('user', () => {
         clearUser,
         restoreToken,
         login,
-        logout
+        logout,
+        userTypes,
+        isManufacturer,
+        isOperator,
+        isConsumer
     }
 })

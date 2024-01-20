@@ -77,6 +77,16 @@ const router = createRouter({
       path: '/importreadings',
       name: 'ImportReadings',
       component: () => import('../views/supplier/ImportReadingsView.vue')
+    },  
+     {
+      path: '/orderchart/:orderId',
+      name: 'OrderChart',
+      component: () => import('../views/charts/OrderChartView.vue')
+    },
+    {
+      path: '/updateOrder/:orderId',
+      name: 'UpdateOrder',
+      component: () => import('../views/customer/UpdateOrderView.vue')
     },
     {
       path: '/updatesensor/:id',

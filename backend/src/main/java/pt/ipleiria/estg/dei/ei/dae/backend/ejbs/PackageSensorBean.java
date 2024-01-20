@@ -39,6 +39,8 @@ public class PackageSensorBean extends AbstractBean<PackageSensorEntity>{
 
     @EJB
     private SensorBean sensorBean;
+    @EJB
+    private OrderBean orderBean;
 
     @EJB
     private PackageSensorReadingsBean readingsBean;
@@ -116,6 +118,8 @@ public class PackageSensorBean extends AbstractBean<PackageSensorEntity>{
                 // Here you'd check if the sensorId and packageId match your criteria
                 Long xmlSensorId = Long.parseLong(element.getElementsByTagName("sensorId").item(0).getTextContent());
                 Long xmlPackageId = Long.parseLong(element.getElementsByTagName("packageId").item(0).getTextContent());
+                Long xmlOrderId = Long.parseLong(element.getElementsByTagName("orderId").item(0).getTextContent());
+
                 String xmlValue = element.getElementsByTagName("value").item(0).getTextContent();
                 Date xmlTimestamp = parseTimestampFromElement(element.getElementsByTagName("timestamp").item(0).getTextContent());
 
@@ -126,6 +130,7 @@ public class PackageSensorBean extends AbstractBean<PackageSensorEntity>{
                 PackageSensorReadingsEntity reading = new PackageSensorReadingsEntity();
                 reading.setValue(xmlValue);
                 reading.setRecordingTimeStamp(xmlTimestamp);
+                reading.setOrderEntity(orderBean.find(xmlOrderId));
                 readingsBean.createReading(reading, xmlPackageId, xmlSensorId);
             }
 
