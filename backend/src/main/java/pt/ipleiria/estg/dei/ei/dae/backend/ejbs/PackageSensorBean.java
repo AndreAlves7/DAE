@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.backend.ejbs;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
+import com.opencsv.exceptions.CsvValidationException;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
@@ -25,6 +26,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -137,29 +139,67 @@ public class PackageSensorBean extends AbstractBean<PackageSensorEntity>{
         return sensorReadings;
     }
 
-    public void importCsvSensorReadings(InputStream csvInputStream) throws IOException, CsvException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(csvInputStream, StandardCharsets.UTF_8));
-        StringBuilder csvContent = new StringBuilder();
+    public void importCsvSensorReadings(InputStream csvInputStream) throws IOException, CsvValidationException, ParseException {
+        // Wrap the InputStream with a BufferedReader to read text from the character-input stream
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(csvInputStream, StandardCharsets.UTF_8));
+             CSVReader csvReader = new CSVReader(reader)) {
 
-        while (reader.readLine() != null) {
-            csvContent.append(reader.readLine()).append("\n");
-        }
-        CSVReader csvReader = new CSVReader(new StringReader(csvContent.toString()));
-        for (String[] record : csvReader.readAll()) {
-            System.out.println("CSV Record: " + String.join(", ", record));
-            Long sensorId = Long.parseLong(record[0]);
-            Long packageId = Long.parseLong(record[1]);
-            Long orderId = Long.parseLong(record[2]);
-            String value = record[3];
-            Date timestamp = parseTimestampFromElement(record[5]);
+            String[] record;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-            PackageSensorReadingsEntity reading = new PackageSensorReadingsEntity();
-            reading.setValue(value);
-            reading.setRecordingTimeStamp(timestamp);
-            reading.setOrderEntity(orderBean.find(orderId));
-            readingsBean.createReading(reading, packageId, sensorId);
+            while ((record = csvReader.readNext()) != null) {
+                if (record.length == 5 && isNumeric(record[0]) && isNumeric(record[1]) && isNumeric(record[2])) {
+                    Long sensorId = Long.parseLong(record[0].trim());
+                    Long packageId = Long.parseLong(record[1].trim());
+                    Long orderId = Long.parseLong(record[2].trim());
+                    String value = record[3].trim();
+                    Date timestamp = parseTimestampFromElement(record[4]);
+
+                    PackageSensorReadingsEntity reading = new PackageSensorReadingsEntity();
+                    reading.setValue(value);
+                    reading.setRecordingTimeStamp(timestamp);
+                    reading.setOrderEntity(orderBean.find(orderId));
+                    readingsBean.createReading(reading, packageId, sensorId);
+                }
+            }
+        } catch (CsvValidationException e) {
+            throw new RuntimeException(e);
         }
     }
+
+    private boolean isNumeric(String str) {
+        try {
+            Long.parseLong(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+
+//    public void importCsvSensorReadings(InputStream csvInputStream) throws IOException, CsvException {
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(csvInputStream, StandardCharsets.UTF_8));
+//        StringBuilder csvContent = new StringBuilder();
+//
+//        while (reader.readLine() != null) {
+//            csvContent.append(reader.readLine()).append("\n");
+//        }
+//        CSVReader csvReader = new CSVReader(new StringReader(csvContent.toString()));
+//        for (String[] record : csvReader.readAll()) {
+//            System.out.println("CSV Record: " + String.join(", ", record));
+//            Long sensorId = Long.parseLong(record[0]);
+//            Long packageId = Long.parseLong(record[1]);
+//            Long orderId = Long.parseLong(record[2]);
+//            String value = record[3];
+//            Date timestamp = parseTimestampFromElement(record[5]);
+//
+//            PackageSensorReadingsEntity reading = new PackageSensorReadingsEntity();
+//            reading.setValue(value);
+//            reading.setRecordingTimeStamp(timestamp);
+//            reading.setOrderEntity(orderBean.find(orderId));
+//            readingsBean.createReading(reading, packageId, sensorId);
+//        }
+//    }
 
     public Date parseTimestampFromElement(String timestampString) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
