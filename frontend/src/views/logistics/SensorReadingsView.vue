@@ -26,6 +26,15 @@ onMounted(async () => {
   }
 });
 
+const formatTimestamp = (timestamp) => {
+  console.log('Timestamp:', timestamp); // Debugging line to check the timestamp value
+  if (!timestamp) {
+    return 'No timestamp provided'; // Fallback message
+  }
+  const date = new Date(timestamp);
+  return isNaN(date.getTime()) ? 'Invalid Date' : date.toLocaleString();
+}
+
 </script>
 
 <template>
@@ -33,9 +42,6 @@ onMounted(async () => {
     <div class="col-100">
       <br><br><br>
       <h1 class="flex-grow">Readings of Selected sensor</h1>
-      <button class="btn btn-sm btn-primary" @click="router.push({ name: 'CreateSensor' })">
-      Create Sensor
-    </button>
       <br><br>
       <DataTable v-model:selection="selectedReading" :value="readings" 
         stateStorage="session" stateKey="table-orders" paginator :rows="10" filterDisplay="menu"
@@ -50,7 +56,7 @@ onMounted(async () => {
         <Column field="recordingTimestamp" header="Recording Timestamp" sortable filterMatchMode="contains" style="width: 40%">
           <template #body="{ data }">
             <div class="flex align-items-center gap-2">
-              <span>{{ data.recordingTimeStamp }}</span>
+              <span>{{ formatTimestamp(data.recordingTimeStamp) }}</span>
             </div>
           </template>
         </Column>
