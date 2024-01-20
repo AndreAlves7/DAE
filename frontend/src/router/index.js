@@ -58,6 +58,11 @@ const router = createRouter({
       path: '/updatepackage/:id',
       name: 'UpdatePackage',
       component: () => import('../views/logistics/UpdatePackageView.vue'),
+    },
+    {
+      path: '/createpackage',
+      name: 'CreatePackage',
+      component: () => import('../views/logistics/CreatePackageView.vue'),
     }
   ]
 })

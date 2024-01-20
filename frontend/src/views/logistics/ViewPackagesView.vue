@@ -37,6 +37,11 @@ const editClick = (id) => {
   <div class="container">
     <div class="col-100">
       <br><br><br>
+
+      <div class="flex align-items-center gap-2">
+        <h1 class="flex-grow">Packages</h1>
+        <router-link class="btn btn-primary" :to="{ name: 'CreatePackage' }">Create Package</router-link>
+      </div>
       <DataTable v-model:selection="selectedPackage" :value="packages" 
         stateStorage="session" stateKey="table-orders" paginator :rows="10" filterDisplay="menu"
         selectionMode="single" dataKey="id" :globalFilterFields="['code']">
