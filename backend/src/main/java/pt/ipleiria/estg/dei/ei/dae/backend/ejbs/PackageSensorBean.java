@@ -152,6 +152,12 @@ public class PackageSensorBean extends AbstractBean<PackageSensorEntity>{
             Long orderId = Long.parseLong(record[2]);
             String value = record[3];
             Date timestamp = parseTimestampFromElement(record[5]);
+
+            PackageSensorReadingsEntity reading = new PackageSensorReadingsEntity();
+            reading.setValue(value);
+            reading.setRecordingTimeStamp(timestamp);
+            reading.setOrderEntity(orderBean.find(orderId));
+            readingsBean.createReading(reading, packageId, sensorId);
         }
     }
 
