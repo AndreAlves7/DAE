@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.backend.ejbs;
 
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
+import jakarta.persistence.TypedQuery;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderPackageEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderEntity;
@@ -49,6 +50,18 @@ public class OrderBean extends AbstractBean<OrderEntity>{
             existingOrderPackages.add(orderPackage);
             orderPackageLinkBean.create(orderPackage);
         }
+    }
+
+    public List<PackageEntity> findNotAssociatedPackages(Long orderId){
+        String jpql = "SELECT p FROM PackageEntity p WHERE p.id NOT IN " +
+                "(SELECT po.packageEntity.id FROM OrderPackageEntity po WHERE po.orderEntity.id = :orderId)";
+
+        // Creating a typed query
+        TypedQuery<PackageEntity> query = em.createQuery(jpql, PackageEntity.class);
+        query.setParameter("orderId", orderId);
+
+        // Executing the query and returning the result list
+        return query.getResultList();
     }
 
 }
