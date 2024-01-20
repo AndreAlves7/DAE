@@ -107,25 +107,27 @@ public class PackageBean extends AbstractBean<PackageEntity> {
         return new ArrayList<>(query.getResultList());
     }
 
-    public String associateOuterPackage(Long innerPackageId, Long outerPackageId) {
-        PackageEntity innerPackage = find(innerPackageId);
+    public String associateOuterPackage(Long orderId, Long outerPackageId) {
+
+        try{
+        List<PackageEntity> innerPackages = findAllByOrderId(orderId);
         PackageEntity outerPackage = find(outerPackageId);
-
-        if (innerPackage == null || outerPackage == null) {
-            return "Packages are null";
+        innerPackages.forEach( inner -> {
+            if (inner == null || outerPackage == null) {
+                return;
+            }
+            if (inner.getPackageType() == PackageType.TRANSPORT) {
+                return;
+            }
+            if (outerPackage.getPackageType().ordinal() - inner.getPackageType().ordinal() != 1) {
+                return;
+            }
+            inner.setOuterPackage(outerPackage);
+            update(inner);
+        });
+        }catch (Exception e ){
+            return "Unable to associate Package";
         }
-
-        if (innerPackage.getPackageType() == PackageType.TRANSPORT) {
-            return "Inner package can not be a Transport package";
-        }
-
-        if (outerPackage.getPackageType().ordinal() - innerPackage.getPackageType().ordinal() != 1) {
-            return "Outer package must be Of an higher type than inner package";
-        }
-
-        innerPackage.setOuterPackage(outerPackage);
-
-        update(innerPackage);
 
         return PACKAGE_ASSOCIATION_SUCCESSFUL;
     }

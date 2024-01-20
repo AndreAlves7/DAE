@@ -16,4 +16,5 @@ public class OrderDTO {
     private String code;
     private boolean isReturned;
     private Map<Long, Integer> quantityByPackageID;
+    private Long outerOrderId;
 }
