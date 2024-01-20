@@ -10,6 +10,7 @@ import pt.ipleiria.estg.dei.ei.dae.backend.dto.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.OrderBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.PackageEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.security.Authenticated;
 
 import java.util.ArrayList;
@@ -62,8 +63,24 @@ public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
         return response;
     }
 
+    @Path("{id}/nopackage")
+    public Response findNotAssociatedPackages(Long orderId) {
+        Response response;
+        try {
+            List<PackageEntity> notAssociatedPackages = orderBean.findNotAssociatedPackages(orderId);
+            response = Response.status(Response.Status.OK)
+                    .entity(notAssociatedPackages)
+                    .build();
+        }catch (Exception e) {
+            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("An unexpected error occurred: " + e.getMessage())
+                    .build();
+        }
+        return response;
+    }
+
     @POST
-    @Path("orders/{orderId}/packages")
+    @Path("{orderId}/packages")
     public void associatePackagesToOrder(@PathParam("orderId") Long orderId, OrderDTO orderDTO){
         orderBean.associatePackagesToOrder(orderId, orderDTO.getQuantityByPackageID());
     }
