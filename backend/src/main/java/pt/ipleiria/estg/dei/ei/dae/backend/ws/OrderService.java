@@ -133,9 +133,17 @@ public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
     }
 
     @POST
-    @Path("{orderId}/packages")
+    @Path("{orderId}/package/{transportId}")
     @RolesAllowed({"Consumer", "Operator"})
-    public void associatePackagesToOrder(@PathParam("orderId") Long orderId, OrderDTO orderDTO) {
-        orderBean.associatePackagesToOrder(orderId, orderDTO.getQuantityByPackageID());
+    public Response associateTransportPackage(@PathParam("orderId") Long orderId, @PathParam("transportId") Long transportId) {
+        try {
+            orderBean.associateTransportPackage(orderId, transportId);
+            return Response.ok().entity("Transport package associated successfully").build();
+        } catch (NotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error associating transport package: " + e.getMessage()).build();
+        }
     }
+
 }

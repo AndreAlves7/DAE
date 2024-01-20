@@ -53,6 +53,29 @@ public class OrderBean extends AbstractBean<OrderEntity>{
         }
     }
 
+    public void associateTransportPackage(Long orderId, Long transportId) {
+        OrderEntity order = find(orderId);
+        PackageEntity transportPackage = packageBean.find(transportId);
+        List<PackageEntity> existingPackages = packageBean.findAllByOrderId(orderId);
+
+        if (order == null || transportPackage == null) {
+            throw new IllegalStateException("Order or TransportPackage not found");
+        }
+
+        OrderPackageEntity newOrderPackage = new OrderPackageEntity();
+        newOrderPackage.setOrderEntity(order);
+        newOrderPackage.setPackageEntity(transportPackage);
+        newOrderPackage.setQuantity(1);
+
+        orderPackageLinkBean.create(newOrderPackage);
+
+
+        for (PackageEntity existing : existingPackages) {
+            existing.setOuterPackage(transportPackage);
+            packageBean.update(existing);
+        }
+    }
+
     public List<PackageEntity> findNotAssociatedPackages(Long orderId){
         String jpql = "SELECT p FROM PackageEntity p WHERE p.id NOT IN " +
                 "(SELECT po.packageEntity.id FROM OrderPackageEntity po WHERE po.orderEntity.id = :orderId)";

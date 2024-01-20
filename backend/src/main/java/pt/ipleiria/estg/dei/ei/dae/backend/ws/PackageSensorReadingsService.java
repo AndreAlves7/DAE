@@ -2,19 +2,29 @@ package pt.ipleiria.estg.dei.ei.dae.backend.ws;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.PersistenceException;
+import jakarta.persistence.criteria.*;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.PackageSensorReadingsDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
+import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.PackageSensorBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.PackageSensorReadingsBean;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.OrderEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorReadingsEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.SensorEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.security.Authenticated;
 
 @Path("readings")
@@ -122,5 +132,25 @@ public class PackageSensorReadingsService extends AbstractService<PackageSensorR
     @RolesAllowed({"Manufacturer", "Operator"})
     public Response delete(Long id) {
         return super.delete(id);
+    }
+
+
+    @GET
+    @Path("/order/{id}")
+    public Response getAverageReadingBySensorForOrder(@PathParam("id") Long orderId) {
+        try {
+            Map<String, Double> averageReadings = packageSensorReadingsBean.getAverageReadingBySensorForOrder(orderId);
+
+            if (averageReadings.isEmpty()) {
+                // No data found for the given order ID
+                return Response.status(Response.Status.NOT_FOUND).entity("No data found for Order ID: " + orderId).build();
+            }
+
+            // Successful response with data
+            return Response.ok(averageReadings).build();
+        } catch (Exception e) {
+            // Handle any exceptions, possibly log them, and return an appropriate error response
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error retrieving data: " + e.getMessage()).build();
+        }
     }
 }
