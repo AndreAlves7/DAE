@@ -1,7 +1,7 @@
 <template>
   <div>
     <form @submit.prevent="addOrder">
-      <div>
+      <!-- <div>
         <label for="productName">Order code:</label>
         <input type="text" id="productName" v-model="order.code">
       </div>
@@ -11,19 +11,40 @@
                 <MultiSelect v-model="selectedPackages" :options="allPackages" :optionLabel="package_ => package_.code" />
       </div> 
             <br>
-            <button type="submit">Add Package</button>
+            <button type="submit">Add Package</button> -->
 
-      <div class="container mt-4">
+      
+
+
+        <div class="mt-4">
+          <label for="productName">Order code:</label>
+          <input type="text" id="productName" v-model="order.code">
+        </div>
+
+        <div class="mt-4">
+          <label for="sensors">Packages</label>
+          <MultiSelect v-model="selectedPackages" :options="allPackages" :optionLabel="package_ => package_.code" />
+        </div>
+
+
+
+        <div class="container mt-4">
               <div class="row">
                 <div class="col-12">
                   <h2>Assign amount of packages</h2>
                   <div v-for="(package_, order) in selectedPackages" :key="order" class="input-group mb-3">
                     <span class="input-group-text">{{ package_.code }}</span>
-                    <input type="text" class="form-control" v-model="package_.amount">
+                    <input required type="number" min="1" class="form-control" v-model="package_.amount">
                   </div>
                 </div>
               </div>
             </div>
+
+
+            <div class="mt-4">
+          <button type="submit">Add Package</button>
+        </div>
+
     </form>
     
   </div>
