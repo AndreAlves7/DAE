@@ -26,6 +26,15 @@ onMounted(async () => {
   }
 });
 
+const formatTimestamp = (timestamp) => {
+  console.log('Timestamp:', timestamp); // Debugging line to check the timestamp value
+  if (!timestamp) {
+    return 'No timestamp provided'; // Fallback message
+  }
+  const date = new Date(timestamp);
+  return isNaN(date.getTime()) ? 'Invalid Date' : date.toLocaleString();
+}
+
 </script>
 
 <template>
@@ -47,7 +56,7 @@ onMounted(async () => {
         <Column field="recordingTimestamp" header="Recording Timestamp" sortable filterMatchMode="contains" style="width: 40%">
           <template #body="{ data }">
             <div class="flex align-items-center gap-2">
-              <span>{{ data.recordingTimeStamp }}</span>
+              <span>{{ formatTimestamp(data.recordingTimeStamp) }}</span>
             </div>
           </template>
         </Column>
