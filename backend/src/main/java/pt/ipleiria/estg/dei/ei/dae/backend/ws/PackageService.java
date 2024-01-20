@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Path("packages")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-//@Authenticated
+@Authenticated
 public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
 
     public static final String PACKAGE_ASSOCIATION_SUCCESSFUL = "Package association successful";

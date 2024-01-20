@@ -40,6 +40,8 @@
                 <MultiSelect v-model="package_.sensors" :options="allSensors" :optionLabel="sensor => sensor.name" />
             </div>
 
+            <Toast />
+
             
 
             <button type="submit">Salvar</button>
@@ -54,7 +56,11 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
 import MultiSelect from 'primevue/multiselect';
+import { useToast } from "primevue/usetoast";
+import Toast from 'primevue/toast';
 
+
+const toast = useToast();
 
 const allSensors = ref([]);
 
@@ -101,7 +107,13 @@ async function submitForm() {
     });
 
     if (response.status === 200) {
-        router.push({ name: 'ViewPackages'});
+        toast.add({
+            severity: "success",
+            summary: "Success",
+            detail: "Package updated",
+            life: 3000
+        });
+        // router.push({ name: 'ViewPackages'});
     }
 }
 

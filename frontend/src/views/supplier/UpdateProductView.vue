@@ -21,6 +21,7 @@
             </div>
             <button type="submit">Salvar</button>
         </form>
+        <Toast />
     </div>
 
 </template>
@@ -30,6 +31,10 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
+import { useToast } from "primevue/usetoast";
+import Toast from 'primevue/toast';
+
+const toast = useToast();
 
 const product = ref({
     name: '',
@@ -55,7 +60,13 @@ async function submitForm() {
     });
 
     if (response.status === 200) {
-        router.push({ name: 'ViewProducts'});
+        toast.add({
+            severity: "success",
+            summary: "Sucesso",
+            detail: "Product updated",
+            life: 3000
+        });
+        // router.push({ name: 'ViewProducts'});
     }
 }
 

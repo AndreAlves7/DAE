@@ -22,7 +22,10 @@
       </div>
 
       <button type="submit">Adicionar Produto</button>
+      <Toast />
+
     </form>
+
 
     <div v-if="submittedProduct">
       <h2>Produto Adicionado:</h2>
@@ -38,6 +41,13 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import router from '@/router';
+import { useToast } from "primevue/usetoast";
+import Toast from 'primevue/toast';
+
+const toast = useToast();
+
+
+console.log(toast);
 
 const product = ref({
   name: '',
@@ -57,11 +67,18 @@ async function addProduct() {
 
   if (response.status === 201) {
     submittedProduct.value = response.data;
+  }else{
+    toast.add({ severity: 'error', summary: 'Error', detail: 'Error adding product', life: 3000 });
+    return
   }
 
   submittedProduct.value = { ...product.value };
 
-  router.push({ name: 'ViewProducts' });
+  toast.add({ severity: 'success', summary: 'Info', detail: 'Product added successfully', life: 3000 });
+
+
+
+  // router.push({ name: 'ViewProducts' });
 }
 
 function convertToBase64(event) {
