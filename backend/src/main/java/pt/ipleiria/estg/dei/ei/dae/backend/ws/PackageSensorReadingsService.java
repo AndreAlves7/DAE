@@ -34,14 +34,15 @@ public class PackageSensorReadingsService extends AbstractService<PackageSensorR
 
     @Override
     protected PackageSensorReadingsEntity convertToEntity(PackageSensorReadingsDTO packageSensorReadingsDTO) {
-        return new PackageSensorReadingsEntity(null, packageSensorReadingsDTO.getValue(), packageSensorReadingsDTO.getRecordingTimeStamp());
+        return new PackageSensorReadingsEntity(null, packageSensorReadingsDTO.getValue(), packageSensorReadingsDTO.getRecordingTimeStamp(), null);
     }
 
     @Override
     protected PackageSensorReadingsDTO convertToDto(PackageSensorReadingsEntity entity) {
         return new PackageSensorReadingsDTO(entity.getId(), entity.getValue(), entity.getRecordingTimeStamp()
-                , entity.getPackageSensorEntity().getSensorEntity().getName(), entity.getPackageSensorEntity().getPackageEntity().getCode()
-                , entity.getPackageSensorEntity().getSensorEntity().getId(), entity.getPackageSensorEntity().getPackageEntity().getId());
+                , entity.getPackageSensorEntity().getSensorEntity().getName(), entity.getPackageSensorEntity().getPackageEntity().getCode(), entity.getOrderEntity().getCode()
+                , entity.getPackageSensorEntity().getSensorEntity().getId(), entity.getPackageSensorEntity().getPackageEntity().getId()
+        , entity.getOrderEntity().getId());
     }
 
     @Override

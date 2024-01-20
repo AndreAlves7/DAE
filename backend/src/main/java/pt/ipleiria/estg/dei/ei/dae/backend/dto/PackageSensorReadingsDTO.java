@@ -16,8 +16,10 @@ public class PackageSensorReadingsDTO {
     private Date recordingTimeStamp;
     private String sensorName;
     private String packageCode;
+    private String orderCode;
 
     private Long sensorId;
     private Long packageId;
+    private Long orderId;
 
 }
