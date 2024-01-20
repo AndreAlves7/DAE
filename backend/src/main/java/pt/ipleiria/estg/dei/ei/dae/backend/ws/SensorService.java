@@ -7,6 +7,7 @@ import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.PackageSensorBean;
+import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.PackageSensorReadingsBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.SensorBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.SensorEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.security.Authenticated;
@@ -27,6 +28,9 @@ public class SensorService extends AbstractService<SensorEntity, SensorDTO>{
 
    @EJB
    protected PackageSensorBean packageSensorBean;
+
+   @EJB
+   protected PackageSensorReadingsBean readingsBean;
 
     @Override
     protected AbstractBean<SensorEntity> getBean() {

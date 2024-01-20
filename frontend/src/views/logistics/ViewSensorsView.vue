@@ -56,11 +56,15 @@ const editClick = (id) => {
         <Column header="Actions" style="width: 20%">
           <template #body="{ data }">
             <div class="p-2">
-              <button class="btn btn-sm btn-light" @click="editClick(data.id)">
+              <button class="btn btn-sm btn-light me-2" @click="editClick(data.id)">
                 <BIconPencil class="bi bi-xs" />
               </button>
-              <button class="btn btn-sm btn-danger" @click="deleteClick(data)">
+              <button class="btn btn-sm btn-danger me-2" @click="deleteClick(data)">
                 <BIconTrash class="bi bi-xs" />
+              </button>
+              <button class="btn btn-sm btn-info" @click="router.push({ name: 'SensorReadings', params: { sensorId: data.id } })">
+                Search Readings
+                <BIconSearch class="bi bi-xs" />
               </button>
             </div>
           </template>
