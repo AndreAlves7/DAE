@@ -1,24 +1,3 @@
-# contas de teste para o projeto
-
-## conta de Consumer
-username: consumer1 password: 123
-
-## conta de Operator
-username: operator1 password: 123
-
-## conta de Manufacturer
-username: manufacturer1 password: 123
-
-
-
-
-
-
-
-
-# Instrucoes para executar o projeto
-
-
 # frontend
 
 This template should help get you started developing with Vue 3 in Vite.
