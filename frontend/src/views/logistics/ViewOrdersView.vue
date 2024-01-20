@@ -29,6 +29,21 @@ onMounted(async () => {
   }
 });
 
+const deleteClick = async (id) => {
+  //dialog confirm
+  const isConfirm = confirm('Are you sure you want to delete this order?');
+  if (!isConfirm) return;
+
+  try {
+    await axios.delete(`/orders/${id}`);
+  } finally {
+    const response = await axios.get('/orders');
+    orders.value = response.data;
+  }
+
+};
+
+
 </script>
 
 <template>
@@ -63,7 +78,7 @@ onMounted(async () => {
               <button class="btn btn-sm btn-light" @click="editClick(data.id)">
                 <BIconPencil class="bi bi-xs" />
               </button>
-              <button class="btn btn-sm btn-danger" @click="deleteClick(data)">
+              <button class="btn btn-sm btn-danger" @click="deleteClick(data.id)">
                 <BIconTrash class="bi bi-xs" />
               </button>
             </div>
