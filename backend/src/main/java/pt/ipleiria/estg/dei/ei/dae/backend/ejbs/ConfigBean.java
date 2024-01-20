@@ -54,10 +54,10 @@ public class ConfigBean {
         //SECOND STEP ===========
         populatePackages();
 
-        populateReadings();
-
         //THIRD STEP ===========
         populateOrders();
+
+        populateReadings();
     }
 
     private void populateUsers(){
@@ -134,9 +134,11 @@ public class ConfigBean {
             Random random = new Random();
             int randomNumber = random.nextInt(10) + 1;
             int randomNumber2 = random.nextInt(10) + 1;
+            int randomNumber4 = random.nextInt(10) + 1;
             int randomNumber3 = random.nextInt(1000) + 1;
 
             readingsEntity.setValue(String.valueOf(randomNumber3));
+            readingsEntity.setOrderEntity(orderBean.find( (long) randomNumber4));
 
             readingsBean.createReading(readingsEntity, (long)randomNumber , (long)randomNumber2);
         }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Where;
+import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorReadingsEntity;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.OrderStatus;
 import pt.ipleiria.estg.dei.ei.dae.backend.enums.UserType;
 
@@ -30,6 +31,9 @@ public class OrderEntity extends AbstractEntity {
 
     @OneToMany(mappedBy = "orderEntity" , cascade = CascadeType.REMOVE)
     private List<OrderPackageEntity> orderPackages;
+
+    @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL)
+    private List<PackageSensorReadingsEntity> sensorReadings;
 
     @Override
     protected void onCreate() {
