@@ -42,7 +42,12 @@ const deleteClick = async (id) => {
 
   try {
     await axios.delete(`/products/${id}`);
-  } finally {
+
+  }catch(error){
+    if (error.response && error.response.status === 500) {
+        alert('Product has associated Elements');
+    }
+  }finally {
     const response = await axios.get('/products');
     products.value = response.data;
   }
