@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ws;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Init;
 import jakarta.ws.rs.*;
@@ -21,6 +23,7 @@ import java.util.Map;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Authenticated
+@PermitAll
 public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
     @EJB
     protected OrderBean orderBean;
@@ -48,6 +51,7 @@ public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
 
 
     @Override
+    @RolesAllowed({"Manufacturer", "Operator"})
     public Response create(OrderDTO orderDTO) {
         Response response;
         try {
@@ -55,7 +59,7 @@ public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
             if(orderDTO.getQuantityByPackageID() != null) {
                 orderBean.associatePackagesToOrder(orderDTO.getId(), orderDTO.getQuantityByPackageID());
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             response = Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("An unexpected error occurred: " + e.getMessage())
                     .build();
@@ -81,6 +85,7 @@ public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
 
     @POST
     @Path("{orderId}/packages")
+    @RolesAllowed({"Manufacturer", "Operator"})
     public void associatePackagesToOrder(@PathParam("orderId") Long orderId, OrderDTO orderDTO){
         orderBean.associatePackagesToOrder(orderId, orderDTO.getQuantityByPackageID());
     }

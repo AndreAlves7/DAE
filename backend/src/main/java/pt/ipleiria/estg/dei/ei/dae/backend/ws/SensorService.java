@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ws;
 import jakarta.annotation.security.DenyAll;
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.persistence.TypedQuery;
@@ -23,7 +24,7 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Authenticated
-@RolesAllowed({"Manufacturer", "Operator"})
+@PermitAll
 public class SensorService extends AbstractService<SensorEntity, SensorDTO>{
 
    @EJB
@@ -57,13 +58,36 @@ public class SensorService extends AbstractService<SensorEntity, SensorDTO>{
         sensorEntity.setName(sensorDTO.getName());
     }
 
-//    @Override
-//    public Response findAll() {
-//        return super.findAll();
-//    }
+    @Override
+    public Response findAll() {
+        return super.findAll();
+    }
 
-    @Path("packages/{id}")
+    @Override
+    public Response find(Long id) {
+        return super.find(id);
+    }
+
+    @Override
+    @RolesAllowed({"Manufacturer", "Operator"})
+    public Response create(SensorDTO sensorDTO) {
+        return super.create(sensorDTO);
+    }
+
+    @Override
+    @RolesAllowed({"Manufacturer", "Operator"})
+    public Response update(Long id, SensorDTO sensorDTO) {
+        return super.update(id, sensorDTO);
+    }
+
+    @Override
+    @RolesAllowed({"Manufacturer", "Operator"})
+    public Response delete(Long id) {
+        return super.delete(id);
+    }
+
     @GET
+    @Path("packages/{id}")
     public List<SensorDTO> findAllByPackageId(@PathParam("id") Long packageId) {
         List<SensorDTO> dtos = new ArrayList<>();
          sensorBean.findAllByPackageId(packageId).forEach( entity -> {
@@ -73,9 +97,10 @@ public class SensorService extends AbstractService<SensorEntity, SensorDTO>{
         return dtos;
     }
 
-    @Path("readings")
     @POST
+    @Path("readings")
     @Consumes(MediaType.APPLICATION_XML)
+    @RolesAllowed({"Manufacturer", "Operator"})
     public Response importSensorReadings(InputStream xmlInputStream) {
         List<SensorDTO> sensorDTOS = new ArrayList<>();
         try {

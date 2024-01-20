@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.persistence.PersistenceException;
 import jakarta.ws.rs.*;
@@ -13,10 +15,13 @@ import pt.ipleiria.estg.dei.ei.dae.backend.dto.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.PackageSensorReadingsBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.sensors.PackageSensorReadingsEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.security.Authenticated;
 
 @Path("readings")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Authenticated
+@PermitAll
 public class PackageSensorReadingsService extends AbstractService<PackageSensorReadingsEntity, PackageSensorReadingsDTO>{
 
     @EJB
@@ -46,8 +51,8 @@ public class PackageSensorReadingsService extends AbstractService<PackageSensorR
     }
 
 
-    @Path("sensor/{id}")
     @GET
+    @Path("sensor/{id}")
     public Response findReadingsBySensorId(@PathParam("id") Long sensorId) {
         try {
             List<PackageSensorReadingsDTO> dtos = new ArrayList<>();
@@ -74,17 +79,19 @@ public class PackageSensorReadingsService extends AbstractService<PackageSensorR
     }
 
     @Override
+    @RolesAllowed({"Manufacturer", "Operator"})
     public Response create(PackageSensorReadingsDTO packageSensorReadingsDTO) {
         try {
             packageSensorReadingsBean.createReading(convertToEntity(packageSensorReadingsDTO)
                     , packageSensorReadingsDTO.getSensorId(), packageSensorReadingsDTO.getPackageId());
-        }catch (PersistenceException e ){
+        } catch (PersistenceException e ) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
         return Response.status(Response.Status.CREATED).build();
     }
 
     @Override
+    @RolesAllowed({"Manufacturer", "Operator"})
     public Response update(Long id, PackageSensorReadingsDTO packageSensorReadingsDTO) {
         try {
             PackageSensorReadingsEntity entityToUpdate = getBean().find(id);

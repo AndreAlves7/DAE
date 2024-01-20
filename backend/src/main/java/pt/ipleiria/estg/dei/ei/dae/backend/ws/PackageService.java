@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Authenticated
-@DenyAll
+@PermitAll
 public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
 
     public static final String PACKAGE_ASSOCIATION_SUCCESSFUL = "Package association successful";
@@ -94,28 +94,26 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
     }
 
     @Override
-    @PermitAll
     public Response findAll() {
         return super.findAll();
     }
 
     @Override
-    @PermitAll
     public Response find(Long id) {
         return super.find(id);
     }
 
-    @Override
-    @RolesAllowed({"Manufacturer", "Operator"})
-    public Response create(PackageDTO packageDTO) {
-        return super.create(packageDTO);
-    }
-
-    @Override
-    @RolesAllowed({"Manufacturer", "Operator"})
-    public Response delete(Long id) {
-        return super.delete(id);
-    }
+//    @Override
+//    @RolesAllowed({"Manufacturer", "Operator"})
+//    public Response create(PackageDTO packageDTO) {
+//        return super.create(packageDTO);
+//    }
+//
+//    @Override
+//    @RolesAllowed({"Manufacturer", "Operator"})
+//    public Response delete(Long id) {
+//        return super.delete(id);
+//    }
 
     @GET
     @Path("order/{id}")
@@ -129,6 +127,7 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
     }
 
     @PATCH
+    @RolesAllowed({"Manufacturer", "Operator"})
     public Response associateOuterPackage(PackageDTO packageDTO) {
         Long innerPackageId = packageDTO.getId();
         Long outerPackageId = packageDTO.getOuterId();
@@ -163,7 +162,7 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
     }
 
     @Override
-    @RolesAllowed({"Manufacturer", "Operator"})
+//    @RolesAllowed({"Manufacturer", "Operator"})
     public Response update(Long id, PackageDTO packageDTO) {
         //add sensors to package
         List<Long> sensorIds = packageDTO.getSensors().stream()
