@@ -4,6 +4,7 @@ import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
@@ -21,7 +22,7 @@ public class AuthService {
     @Inject
     private TokenIssuer issuer;
 
-    @Inject
+    @Context
     private SecurityContext securityContext;
 
     @EJB
