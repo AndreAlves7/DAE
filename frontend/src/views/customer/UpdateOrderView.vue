@@ -43,7 +43,7 @@ const route = useRoute();
 
 onMounted(async () => {
     const response = await axios.get(`/packages`);
-    transportPackages.value = response.data;
+    transportPackages.value = response.data.filter(pkg => pkg.packageType === 'TRANSPORT' || pkg.packageType === 'TERTIARY');
     console.log(transportPackages.value)
 });
 
