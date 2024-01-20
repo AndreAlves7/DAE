@@ -13,7 +13,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => LoginView
+      component: () => import('../views/DashboardView.vue')
     },
     {
       path: '/dashboard',
@@ -91,7 +91,16 @@ let handlingFirstRoute = true
 
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
-  
+
+  console.log('From:', from.name)
+  console.log('To:', to.name)
+  console.log('User:', userStore.user)
+
+  if (userStore.user == null && to.name !== 'login') {
+    next({ name: 'login' })
+    return
+  }
+
   if (handlingFirstRoute) {
     handlingFirstRoute = false
     await userStore.restoreToken()
@@ -106,6 +115,7 @@ router.beforeEach(async (to, from, next) => {
     next({ name: 'dashboard' })
     return
   }
+
   next()
 })
 

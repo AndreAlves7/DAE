@@ -27,6 +27,7 @@ const logout = async () => {
 
 <template>
   
+<div v-if="userStore.user != null">
 
   <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top flex-md-nowrap p-0 shadow">
     <div class="container-fluid">
@@ -137,9 +138,16 @@ const logout = async () => {
     </div>
   </div>
 
-  <main class="ms-sm-auto col-lg-10 px-md-4">
+</div>
+
+
+  <main v-if="userStore.user" class="ms-sm-auto col-lg-10 px-md-4">
     <router-view></router-view>
   </main>
+  <main v-else>
+    <router-view></router-view>
+  </main>
+
 </template>
 
 
