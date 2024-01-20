@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ws;
 
+import jakarta.annotation.security.DenyAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceException;
@@ -21,7 +23,6 @@ import java.util.stream.Collectors;
 @Path("products")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-//@Authenticated
 public class ProductService extends AbstractService<ProductEntity,ProductDTO> {
 
     @EJB
@@ -43,6 +44,12 @@ public class ProductService extends AbstractService<ProductEntity,ProductDTO> {
     protected ProductDTO convertToDto(ProductEntity productEntity) {
 
         return new ProductDTO(productEntity.getId(),productEntity.getName(), productEntity.getDescription(),productEntity.getCode(), productEntity.getPhotoBase64(), null) ;
+    }
+
+    @Override
+    @RolesAllowed({"Manufacturer", "Operator"})
+    public Response findAll() {
+        return super.findAll();
     }
 
     @Override

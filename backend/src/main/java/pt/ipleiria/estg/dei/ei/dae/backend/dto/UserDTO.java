@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.w3c.dom.stylesheets.LinkStyle;
 import pt.ipleiria.estg.dei.ei.dae.backend.entities.UserEntity;
+import pt.ipleiria.estg.dei.ei.dae.backend.enums.UserType;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class UserDTO {
     @NotNull
     private String email;
     @NotNull
-    private int userType;
+    private int type;
 
     public static UserDTO from(UserEntity user) {
         return new UserDTO(user.getUsername(), user.getName(), user.getEmail(), user.getUserType().getCode());

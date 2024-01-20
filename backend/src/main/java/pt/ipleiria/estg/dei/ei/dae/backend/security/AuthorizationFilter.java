@@ -14,6 +14,7 @@ import jakarta.ws.rs.ext.Provider;
 import lombok.var;
 import org.jboss.resteasy.core.ResourceMethodInvoker;
 import pt.ipleiria.estg.dei.ei.dae.backend.security.Authenticated;
+import pt.ipleiria.estg.dei.ei.dae.backend.ws.AbstractService;
 
 import java.io.IOException;
 import java.lang.reflect.Method;

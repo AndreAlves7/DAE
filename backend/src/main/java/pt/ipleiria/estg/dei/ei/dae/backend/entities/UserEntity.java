@@ -30,6 +30,7 @@ public class UserEntity extends Versionable {
     @NotNull
     private String email;
 
+    @Transient
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
@@ -44,7 +45,6 @@ public class UserEntity extends Versionable {
         this.name = name;
         this.password = password;
         this.email = email;
-        this.userType = UserType.CONSUMER;
         this.createdDate = new Date();
     }
 }

@@ -1,8 +1,11 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ws;
+import jakarta.annotation.security.DenyAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.persistence.TypedQuery;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.SensorDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.AbstractBean;
 import pt.ipleiria.estg.dei.ei.dae.backend.ejbs.SensorBean;
@@ -15,7 +18,8 @@ import java.util.List;
 @Path("sensors")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-//@Authenticated
+@Authenticated
+@RolesAllowed({"Manufacturer", "Operator"})
 public class SensorService extends AbstractService<SensorEntity, SensorDTO>{
 
    @EJB
@@ -42,6 +46,11 @@ public class SensorService extends AbstractService<SensorEntity, SensorDTO>{
     protected void copyDtoToEntity(SensorDTO sensorDTO, SensorEntity sensorEntity) {
         sensorDTO.setName(sensorEntity.getName());
     }
+
+//    @Override
+//    public Response findAll() {
+//        return super.findAll();
+//    }
 
     @Path("packages/{id}")
     @GET

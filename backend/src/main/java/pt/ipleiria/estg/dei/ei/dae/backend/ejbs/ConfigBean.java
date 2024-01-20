@@ -61,15 +61,22 @@ public class ConfigBean {
     }
 
     private void populateUsers(){
-        for (int i = 1; i <= 10; i++) {
-            String username = "User" + i;
-            String name = "User" + i;
-            String password = "Password" + i;
-            String email = "User" + i + "@mail.pt";
-            UserEntity user = new UserEntity(username, name, password, email);
-
-            userBean.create(user);
+        for (int i = 1; i <= 8; i++) {
+            String username = "Consumer" + i;
+            String name = "consumer" + i;
+            String password = "123";
+            String email = "consumer" + i + "@mail.pt";
+            Consumer consumer = new Consumer(username, name, password, email);
+            userBean.create(consumer);
         }
+
+        Manufacturer manufacturer = new Manufacturer("manufacturer1", "123",
+                "manufacturer1", "manufacturer@mail.pt");
+        userBean.create(manufacturer);
+
+        Operator operator = new Operator("operator1", "operator1",
+                "123", "operator@mail.pt");
+        userBean.create(operator);
     }
 
     private void populateSensors(){

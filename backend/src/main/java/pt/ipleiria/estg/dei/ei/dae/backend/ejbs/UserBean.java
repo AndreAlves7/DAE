@@ -53,7 +53,6 @@ public class UserBean extends AbstractBean<UserEntity> {
         try {
             user.setName(user.getName().trim());
             user.setEmail(user.getName().trim());
-            user.setUserType(user.getUserType());
             em.merge(user);
         } catch (ConstraintViolationException ex) {
             throw new ConstraintViolationException(ex.getConstraintViolations());

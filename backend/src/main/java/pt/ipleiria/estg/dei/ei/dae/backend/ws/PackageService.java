@@ -1,5 +1,8 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ws;
 
+import jakarta.annotation.security.DenyAll;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceException;
@@ -25,7 +28,8 @@ import java.util.stream.Collectors;
 @Path("packages")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-//@Authenticated
+@Authenticated
+@DenyAll
 public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
 
     public static final String PACKAGE_ASSOCIATION_SUCCESSFUL = "Package association successful";
@@ -88,6 +92,12 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
         packageEntity.setProduct(product);
 
     }
+
+//    @Override
+////    @PermitAll
+//    public Response findAll() {
+//        return super.findAll();
+//    }
 
     @GET
     @Path("order/{id}")
