@@ -63,7 +63,7 @@ async function submitForm() {
         toast.add({
             severity: "error",
             summary: "Error",
-            detail: "Internal error or you can not associate another Transport Package",
+            detail: "Can not associate another Transport Package",
             life: 5000
         });
     }
