@@ -16,7 +16,7 @@
       <div class="container mt-4">
               <div class="row">
                 <div class="col-12">
-                  <h2>Assign amount to packages</h2>
+                  <h2>Assign amount of packages</h2>
                   <div v-for="(package_, order) in selectedPackages" :key="order" class="input-group mb-3">
                     <span class="input-group-text">{{ package_.code }}</span>
                     <input type="text" class="form-control" v-model="package_.amount">
@@ -53,26 +53,32 @@ onMounted(async () => {
 });
 
 async function addOrder() {
+  let quantityByPackageID = {};
+
+  selectedPackages.value.forEach(pkg => {
+    if (pkg.amount !== 0) {
+      quantityByPackageID[pkg.id] = pkg.amount;
+    }
+  });
 
 
-  console.log(order.value.code)
-  console.log("ADSDSASADDASSDA")
-  console.log(selectedPackages.value)
-  //send to api
-  // const response = await axios.post('/orders', {
-  //   code : order.value.code,
-  //   quantityByPackageID : allPackages.value,
-  // });
+  if (Object.keys(quantityByPackageID).length === 0) {
+    console.error('No packages with valid quantities selected.');
+    return;
+  }
 
-  // if (response.status === 201) {
-    // submittedOrder.value = response.data;
-  // }
+  try {
+    const response = await axios.post(`/orders`, {
+      code: order.value.code,
+      quantityByPackageID: quantityByPackageID,
+    });
 
-  // submittedOrder.value = { ...product.value };
+  } catch (error) {
+    console.error('Error adding order:', error);
+  }
 
-  // router.push({ name: 'ViewProducts' });
+  router.push({ name: 'dashboard' });
 }
-
 </script>
 
 <style>
