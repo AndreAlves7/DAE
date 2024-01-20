@@ -33,9 +33,6 @@ onMounted(async () => {
     <div class="col-100">
       <br><br><br>
       <h1 class="flex-grow">Readings of Selected sensor</h1>
-      <button class="btn btn-sm btn-primary" @click="router.push({ name: 'CreateSensor' })">
-      Create Sensor
-    </button>
       <br><br>
       <DataTable v-model:selection="selectedReading" :value="readings" 
         stateStorage="session" stateKey="table-orders" paginator :rows="10" filterDisplay="menu"
