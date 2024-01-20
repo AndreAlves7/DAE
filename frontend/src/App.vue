@@ -47,18 +47,9 @@ const logout = async () => {
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">
               <!-- <img :src="userStore.userPhotoUrl" class="rounded-circle z-depth-0 avatar-img" alt="avatar image"> -->
-              <span class="avatar-text">"SAMPLE"</span>
+              <span class="avatar-text">Menu</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-              <li>
-                <button class="dropdown-item" @click="clickProfileOption" >
-                  <i class="bi bi-person-square"></i>
-                  Profile
-                </button>
-              </li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
               <li>
                 <button class="dropdown-item" @click.prevent="logout">
                   <i class="bi bi-arrow-right"></i>Logout
