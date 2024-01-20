@@ -33,7 +33,7 @@ const logout = async () => {
     <div class="container-fluid">
       <router-link class="navbar-brand col-md-3 col-lg-2 me-0 px-3" :to="{ name: 'home' }" @click="clickMenuOption">
         <BIconRocketTakeoff class="me-2 fs-3"/>
-                Rabolut V3
+                DAE
       </router-link>
       <button id="buttonSidebarExpandId" class="navbar-toggler" type="button" data-bs-toggle="collapse"
         data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,35 +91,35 @@ const logout = async () => {
           
           <ul  class="nav flex-column mb-2">
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'ViewProducts' }"
+              <router-link v-if="userStore.isManufacturer" class="nav-link" :class="{ active: $route.name === 'ViewProducts' }"
                           :to="{ name: 'ViewProducts' }" @click="clickMenuOption">
                 <i class="bi bi-house"></i>
                 Products
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'ViewOrders' }"
+              <router-link  v-if="userStore.isConsumer || userStore.isOperator || userStore.isManufacturer" class="nav-link" :class="{ active: $route.name === 'ViewOrders' }"
                           :to="{ name: 'ViewOrders' }" @click="clickMenuOption">
                 <i class="bi bi-house"></i>
                 Orders
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'ViewPackages' }"
+              <router-link class="nav-link" v-if="userStore.isManufacturer || userStore.isOperator" :class="{ active: $route.name === 'ViewPackages' }"
                           :to="{ name: 'ViewPackages' }" @click="clickMenuOption">
                 <i class="bi bi-house"></i>
                 Packages
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'ViewSensors' }"
+              <router-link class="nav-link" v-if="userStore.isManufacturer || userStore.isOperator"  :class="{ active: $route.name === 'ViewSensors' }"
                           :to="{ name: 'ViewSensors' }" @click="clickMenuOption">
                 <i class="bi bi-house"></i>
                 Sensors
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: $route.name === 'ImportReadings' }"
+              <router-link class="nav-link" v-if="userStore.isManufacturer || userStore.isOperator"  :class="{ active: $route.name === 'ImportReadings' }"
                           :to="{ name: 'ImportReadings' }" @click="clickMenuOption">
                 <i class="bi bi-house"></i>
                 Import Sensor Readings
