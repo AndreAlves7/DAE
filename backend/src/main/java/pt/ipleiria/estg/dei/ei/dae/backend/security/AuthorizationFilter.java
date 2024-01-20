@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.ei.dae.backend.entities;
+package pt.ipleiria.estg.dei.ei.dae.backend.security;
 
 import jakarta.annotation.Priority;
 import jakarta.annotation.security.DenyAll;

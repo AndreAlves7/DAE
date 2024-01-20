@@ -65,8 +65,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
 
     private String getUsername(String token) {
-        var key = new SecretKeySpec(TokenIssuer.SECRET_KEY,
-                TokenIssuer.ALGORITHM);
+        var key = new SecretKeySpec(TokenIssuer.SECRET_KEY, TokenIssuer.ALGORITHM);
         try {
             return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
         } catch (Exception e) {

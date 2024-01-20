@@ -1,6 +1,10 @@
 <script setup>
 import { BIconRocketTakeoff } from 'bootstrap-icons-vue'
+import { useUserStore } from './stores/user.js'
+import { useRouter, RouterView } from 'vue-router';
 
+const userStore = useUserStore()
+const router = useRouter()
 
 const clickMenuOption = () => {
   const domReference = document.getElementById('buttonSidebarExpandId')
@@ -8,6 +12,14 @@ const clickMenuOption = () => {
     if (window.getComputedStyle(domReference).display !== "none") {
       domReference.click()
     }
+  }
+}
+
+const logout = async () => {
+  if (await userStore.logout()) {
+    router.push({ name: 'login' })
+  } else {
+    console.log('There was a problem logging out of the application!')
   }
 }
 
