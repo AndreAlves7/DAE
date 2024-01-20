@@ -1,7 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.enums;
 
 public enum PackageType {
-    PRIMARY(1, "TRANSPORT"),
+    PRIMARY(1, "PRIMARY"),
     SECONDARY(2, "SECONDARY"),
     TERTIARY(3, "TERTIARY"),
     TRANSPORT(4, "TRANSPORT");
