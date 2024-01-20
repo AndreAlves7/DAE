@@ -52,8 +52,10 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
         PackageMaterialType materialType = PackageMaterialType.valueOf(packageDTO.getMaterialType().toUpperCase());
         PackageType packageType = PackageType.valueOf(packageDTO.getPackageType().toUpperCase());
 
-        ProductEntity product = productBean.find(packageDTO.getProduct().getId());
-
+        ProductEntity product = null;
+        if (packageDTO.getProduct().getId() != null) {
+          product = productBean.find(packageDTO.getProduct().getId());
+        }
         return new PackageEntity(packageDTO.getCode(), materialType, packageType, product, null, null, null);
     }
 
@@ -88,8 +90,10 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
         packageEntity.setPackageMaterial(materialType);
         packageEntity.setPackageType(packageType);
 
-        ProductEntity product = productBean.find(packageDTO.getProduct().getId());
-        packageEntity.setProduct(product);
+        if(packageDTO.getProduct().getId() != null) {
+            ProductEntity product = productBean.find(packageDTO.getProduct().getId());
+            packageEntity.setProduct(product);
+        }
 
     }
 
