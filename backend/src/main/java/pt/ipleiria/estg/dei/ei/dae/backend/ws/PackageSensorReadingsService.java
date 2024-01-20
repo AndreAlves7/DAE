@@ -50,6 +50,15 @@ public class PackageSensorReadingsService extends AbstractService<PackageSensorR
         entity.setRecordingTimeStamp(packageSensorReadingsDTO.getRecordingTimeStamp());
     }
 
+    @Override
+    public Response find(Long id) {
+        return super.find(id);
+    }
+
+    @Override
+    public Response findAll() {
+        return super.findAll();
+    }
 
     @GET
     @Path("sensor/{id}")

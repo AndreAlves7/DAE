@@ -68,7 +68,16 @@ public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
             // Assuming all other cases are error cases
             return Response.status(Response.Status.BAD_REQUEST).entity(result).build();
         }
+    }
 
+    @Override
+    public Response find(Long id) {
+        return super.find(id);
+    }
+
+    @Override
+    public Response findAll() {
+        return super.findAll();
     }
 
     @Override
