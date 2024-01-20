@@ -126,23 +126,6 @@ public class PackageService extends AbstractService<PackageEntity, PackageDTO>{
         return dtos;
     }
 
-    @PATCH
-    @RolesAllowed({"Manufacturer", "Operator"})
-    public Response associateOuterPackage(PackageDTO packageDTO) {
-        Long innerPackageId = packageDTO.getId();
-        Long outerPackageId = packageDTO.getOuterId();
-
-        String result = packageBean.associateOuterPackage(innerPackageId, outerPackageId);
-
-        // Based on the result string, determine the response
-        if (result.equals(PACKAGE_ASSOCIATION_SUCCESSFUL)) {
-            return Response.ok(result).build();
-        } else {
-            // Assuming all other cases are error cases
-            return Response.status(Response.Status.BAD_REQUEST).entity(result).build();
-        }
-    }
-
     @GET
     @Path("product/{id}")
     public Response findPackagesByProducts(@PathParam("id") Long productId){
