@@ -66,8 +66,26 @@ public class ProductService extends AbstractService<ProductEntity,ProductDTO> {
         productEntity.setPhotoBase64(productDTO.getPhotoBase64());
     }
 
+    @Override
+    @RolesAllowed({"Manufacturer"})
+    public Response create(ProductDTO productDTO) {
+        return super.create(productDTO);
+    }
+
+    @Override
+    @RolesAllowed({"Manufacturer"})
+    public Response update(Long id, ProductDTO productDTO) {
+        return super.update(id, productDTO);
+    }
+
+    @Override
+    @RolesAllowed({"Manufacturer"})
+    public Response delete(Long id) {
+        return super.delete(id);
+    }
+
     @PATCH
-    @RolesAllowed({"Manufacturer", "Operator"})
+    @RolesAllowed({"Manufacturer"})
     public Response associatePackage(ProductDTO productDTO){
         Long productId = productDTO.getId();
         Long packageId = productDTO.getPackageId();

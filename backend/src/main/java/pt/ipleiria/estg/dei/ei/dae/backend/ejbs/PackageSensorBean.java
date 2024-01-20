@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ejbs;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
@@ -21,10 +23,7 @@ import javax.management.modelmbean.XMLParseException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -131,6 +130,24 @@ public class PackageSensorBean extends AbstractBean<PackageSensorEntity>{
             }
 
         return sensorReadings;
+    }
+
+    public void importCsvSensorReadings(InputStream csvInputStream) throws IOException, CsvException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(csvInputStream, StandardCharsets.UTF_8));
+        StringBuilder csvContent = new StringBuilder();
+
+        while (reader.readLine() != null) {
+            csvContent.append(reader.readLine()).append("\n");
+        }
+        CSVReader csvReader = new CSVReader(new StringReader(csvContent.toString()));
+        for (String[] record : csvReader.readAll()) {
+            System.out.println("CSV Record: " + String.join(", ", record));
+            Long sensorId = Long.parseLong(record[0]);
+            Long packageId = Long.parseLong(record[1]);
+            Long orderId = Long.parseLong(record[2]);
+            String value = record[3];
+            Date timestamp = parseTimestampFromElement(record[5]);
+        }
     }
 
     public Date parseTimestampFromElement(String timestampString) {

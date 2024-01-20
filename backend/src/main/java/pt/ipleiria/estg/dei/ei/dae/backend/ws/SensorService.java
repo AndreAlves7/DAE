@@ -1,4 +1,5 @@
 package pt.ipleiria.estg.dei.ei.dae.backend.ws;
+import com.opencsv.exceptions.CsvException;
 import jakarta.annotation.security.DenyAll;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
@@ -113,6 +114,25 @@ public class SensorService extends AbstractService<SensorEntity, SensorDTO>{
                     .build();
         } catch (Exception e) {
             // Handle other exceptions
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error processing request: " + e.getMessage())
+                    .build();
+        }
+    }
+
+    @POST
+    @Path("/readings/csv")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @RolesAllowed({"Manufacturer", "Operator"})
+    public Response importCsvSensorReadings(InputStream csvInputStream) {
+        try {
+            packageSensorBean.importCsvSensorReadings(csvInputStream);
+            return Response.ok().build();
+        } catch (CsvException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(e.getMessage())
+                    .build();
+        } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("Error processing request: " + e.getMessage())
                     .build();
