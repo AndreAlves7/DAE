@@ -5,30 +5,31 @@ import axios from 'axios';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
-import { useRouter } from 'vue-router';
+import router from '@/router';
 
 // import { FilterMatchMode  } from 'primevue/api';
 
-const router = useRouter();
 
-const packages = ref([]);
-const selectedPackage = ref([]);
+const sensors = ref([]);
+const selectedOrder = ref([]);
 
+watch(selectedOrder, () => {
+  console.log(selectedOrder.value)
+}) 
 
 onMounted(async () => {
   try {
-    const response = await axios.get('/packages');
-    packages.value = response.data;
-    console.log(packages.value);
+    const response = await axios.get('/sensors');
+    sensors.value = response.data;
+    console.log(sensors.value);
   } catch (error) {
     console.error('Error fetching orders:', error);
   }
 });
 
-
 const editClick = (id) => {
   console.log(id);
-  router.push({ name: 'UpdatePackage', params: { id: id } });
+  router.push({ name: 'UpdateSensor', params: { id: id } });
 }
 
 </script>
@@ -37,28 +38,18 @@ const editClick = (id) => {
   <div class="container">
     <div class="col-100">
       <br><br><br>
-
-      <div class="flex align-items-center gap-2">
-        <h1 class="flex-grow">Packages</h1>
-        <button class="btn btn-sm btn-primary" @click="router.push({ name: 'CreatePackage' })">
-          Create Package
-        </button>
-        <br><br>
-      </div>
-      <DataTable v-model:selection="selectedPackage" :value="packages" 
+      <h1 class="flex-grow">Sensors</h1>
+      <button class="btn btn-sm btn-primary" @click="router.push({ name: 'CreateSensor' })">
+      Create Sensor
+    </button>
+      <br><br>
+      <DataTable v-model:selection="selectedOrder" :value="sensors" 
         stateStorage="session" stateKey="table-orders" paginator :rows="10" filterDisplay="menu"
         selectionMode="single" dataKey="id" :globalFilterFields="['code']">
         <Column field="code" header="Code" sortable filterMatchMode="contains" style="width: 40%">
           <template #body="{ data }">
             <div class="flex align-items-center gap-2">
-              <span>{{ data.code }}</span>
-            </div>
-          </template>
-        </Column>
-        <Column field="Type" header="Type" sortable filterMatchMode="contains" style="width: 40%">
-          <template #body="{ data }">
-            <div class="flex align-items-center gap-2">
-              <span>{{data.packageType}}</span>
+              <span>{{ data.name }}</span>
             </div>
           </template>
         </Column>
@@ -74,7 +65,7 @@ const editClick = (id) => {
             </div>
           </template>
         </Column>
-        <template #empty>No orders found.</template>
+        <template #empty>No sensors found.</template>
       </DataTable>
     </div>
   </div>

@@ -52,3 +52,9 @@ const login = async () => {
 }
 
 </script>
+
+<style scoped>
+  .form-control {
+    width: 100% !important;
+  }
+</style>

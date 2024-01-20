@@ -111,6 +111,13 @@ const logout = async () => {
               </router-link>
             </li>
             <li class="nav-item">
+              <router-link class="nav-link" :class="{ active: $route.name === 'ViewSensors' }"
+                          :to="{ name: 'ViewSensors' }" @click="clickMenuOption">
+                <i class="bi bi-house"></i>
+                Sensors
+              </router-link>
+            </li>
+            <li class="nav-item">
               <!-- <router-link class="nav-link" :class="{ active: $route.name === 'MakeTransaction' }"
                           :to="{ name: 'MakeTransaction' }" @click="clickMenuOption">
                 <i class="bi bi-house"></i>

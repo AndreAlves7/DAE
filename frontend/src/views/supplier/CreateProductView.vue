@@ -1,7 +1,8 @@
 <template>
   <div>
     <form @submit.prevent="addProduct">
-      <div>
+      <h1>Create Product</h1>
+      <!-- <div>
         <label for="productName">Nome do Produto:</label>
         <input type="text" id="productName" v-model="product.name">
       </div>
@@ -21,8 +22,27 @@
         <input type="file" id="productImage" @change="convertToBase64">
       </div>
 
-      <button type="submit">Adicionar Produto</button>
+      <button type="submit">Adicionar Produto</button> -->
       <Toast />
+
+
+      <div class="mb-3">
+        <label for="productName">Nome do Produto:</label>
+        <input type="text" id="productName" class="form-control" v-model="product.name">      </div>
+      <div class="mb-3">
+        <label for="productDescription">Descrição do Produto:</label>
+        <textarea id="productDescription" class="form-control" v-model="product.description"></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="productCode">Código do Produto:</label>
+        <input type="text" id="productCode" class="form-control" v-model="product.code">
+      </div>
+      <div class="mb-3">
+        <label for="productImage">Imagem do Produto:</label>
+        <input type="file" id="productImage" class="form-control" @change="convertToBase64">
+      </div>
+
+      <button type="submit" class="btn btn-primary mb-3">Create</button>
 
     </form>
 
@@ -62,7 +82,9 @@ async function addProduct() {
   //send to api
   const response = await axios.post('/products', {
     code : product.value.code,
-    photoBase64: product.value.imageBase64
+    photoBase64: product.value.imageBase64,
+    name : product.value.name,
+    description : product.value.description,
   });
 
   if (response.status === 201) {

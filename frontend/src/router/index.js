@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from "../stores/user.js"
-
-import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 
 const router = createRouter({
@@ -15,15 +13,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      component: () => LoginView
     },
     {
       path: '/dashboard',
@@ -67,6 +57,21 @@ const router = createRouter({
       path: '/createpackage',
       name: 'CreatePackage',
       component: () => import('../views/logistics/CreatePackageView.vue'),
+    },
+    { 
+      path: '/createsensor',
+      name: 'CreateSensor',
+      component: () => import('../views/logistics/CreateSensorView.vue'),
+    } ,
+    {
+      path: '/viewsensors',
+      name: 'ViewSensors',
+      component: () => import('../views/logistics/ViewSensorsView.vue')
+    },
+    {
+      path: '/updatesensor/:id',
+      name: 'UpdateSensor',
+      component: () => import('../views/logistics/UpdateSensorView.vue'),
     }
   ]
 })
@@ -83,6 +88,11 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if(userStore.user && to.name == 'login'){
+    next({ name: 'dashboard' })
+    return
+  }
+
+  if(userStore.user && to.name == 'home'){
     next({ name: 'dashboard' })
     return
   }

@@ -40,7 +40,7 @@ public class SensorService extends AbstractService<SensorEntity, SensorDTO>{
 
     @Override
     protected void copyDtoToEntity(SensorDTO sensorDTO, SensorEntity sensorEntity) {
-        sensorDTO.setName(sensorEntity.getName());
+        sensorEntity.setName(sensorDTO.getName());
     }
 
     @Path("packages/{id}")

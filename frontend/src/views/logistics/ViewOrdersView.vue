@@ -35,6 +35,7 @@ onMounted(async () => {
   <div class="container">
     <div class="col-100">
       <br><br><br>
+      <h1 class="flex-grow">Orders</h1>
       <button class="btn btn-sm btn-primary" @click="router.push({ name: 'createOrder' })">
       Create Order
     </button>

@@ -3,11 +3,11 @@
         <h1>Edit Package</h1>
         <form @submit.prevent="submitForm">
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="code">Código</label>
                 <input type="text" id="code" v-model="package_.code" />
             </div>
-            <!-- dropdown -->
+             dropdown
             <div class="form-group">
                 <label for="materialType">Tipo de Material</label>
                 <select id="materialType" v-model="package_.materialType">
@@ -17,7 +17,6 @@
                 </select>
             </div>
 
-            <!-- dropdown  -->
             <div class="form-group">
                 <label for="materialType">Tipo de Material</label>
                 <select id="materialType" v-model="package_.packageType">
@@ -27,6 +26,8 @@
                     <option value="TRANSPORT">TRANSPORT</option>
                 </select>
             </div>
+
+            
 
             <div class="form-group">
                 <label for="product">Produto</label>
@@ -38,13 +39,55 @@
             <div class="form-group">
                 <label for="sensors">Sensores</label>
                 <MultiSelect v-model="package_.sensors" :options="allSensors" :optionLabel="sensor => sensor.name" />
-            </div>
+            </div> -->
 
             <Toast />
 
+
+            <div class="mb-3">
+                <label for="code">Código</label>
+                <input type="text" id="code" class="form-control" v-model="package_.code" />  
+            </div>
+            <!-- dropdown -->
+            <div class="mb-3">
+                <label for="materialType">Tipo de Material</label>
+                <select id="materialType" class="form-control" v-model="package_.materialType">
+                    <option value="CARDBOARD">CARDBOARD</option>
+                    <option value="PLASTIC">PLASTIC</option>
+                    <option value="METAL">METAL</option>
+                </select>
+            </div>
+
+            <!-- dropdown  -->
+            <div class="mb-3">
+                <label for="materialType">Tipo de Material</label>
+                <select id="materialType" class="form-control" v-model="package_.packageType">
+                    <option value="PRIMARY">PRIMARY</option>
+                    <option value="SECONDARY">SECONDARY</option>
+                    <option value="TERTIARY">TERTIARY</option>
+                    <option value="TRANSPORT">TRANSPORT</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="product">Produto</label>
+                <select id="product" class="form-control" v-model="package_.product.id">
+                    <option v-for="product in products" :key="product.id" :value="product.id">{{ product.name }}</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="sensors">Sensores</label>
+                <MultiSelect v-model="package_.sensors" :options="allSensors" :optionLabel="sensor => sensor.name" />
+            </div>
+
+
+        
+
+      <button type="submit" class="btn btn-primary mb-3">Create</button>
             
 
-            <button type="submit">Salvar</button>
+            <!-- <button type="submit">Salvar</button> -->
         </form>
     </div>
 
@@ -58,6 +101,7 @@ import { useRoute, useRouter } from 'vue-router';
 import MultiSelect from 'primevue/multiselect';
 import { useToast } from "primevue/usetoast";
 import Toast from 'primevue/toast';
+import Dropdown from 'primevue/dropdown';
 
 
 const toast = useToast();
