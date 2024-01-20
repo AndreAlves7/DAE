@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
 import { BootstrapIconsPlugin } from 'bootstrap-icons-vue';
 import PrimeVue from 'primevue/config';
+import ToastService from 'primevue/toastservice';
+
 import 'primevue/resources/themes/lara-light-green/theme.css'
 
 
@@ -26,4 +28,6 @@ app.use(createPinia())
 .use(router)
 .use(PrimeVue)
 .use(BootstrapIconsPlugin)
+.use(ToastService)
 .mount('#app')
+

@@ -27,6 +27,7 @@ const logout = async () => {
 
 <template>
   
+<div v-if="userStore.user != null">
 
   <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top flex-md-nowrap p-0 shadow">
     <div class="container-fluid">
@@ -111,6 +112,20 @@ const logout = async () => {
               </router-link>
             </li>
             <li class="nav-item">
+              <router-link class="nav-link" :class="{ active: $route.name === 'ViewSensors' }"
+                          :to="{ name: 'ViewSensors' }" @click="clickMenuOption">
+                <i class="bi bi-house"></i>
+                Sensors
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" :class="{ active: $route.name === 'ImportReadings' }"
+                          :to="{ name: 'ImportReadings' }" @click="clickMenuOption">
+                <i class="bi bi-house"></i>
+                Import Sensor Readings
+              </router-link>
+            </li>
+            <li class="nav-item">
               <!-- <router-link class="nav-link" :class="{ active: $route.name === 'MakeTransaction' }"
                           :to="{ name: 'MakeTransaction' }" @click="clickMenuOption">
                 <i class="bi bi-house"></i>
@@ -123,9 +138,16 @@ const logout = async () => {
     </div>
   </div>
 
-  <main class="ms-sm-auto col-lg-10 px-md-4">
+</div>
+
+
+  <main v-if="userStore.user" class="ms-sm-auto col-lg-10 px-md-4">
     <router-view></router-view>
   </main>
+  <main v-else>
+    <router-view></router-view>
+  </main>
+
 </template>
 
 

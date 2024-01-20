@@ -1,2 +1,11 @@
 @import './base.css';
 
+
+
+ol, ul{
+    padding: 0 !important;
+}
+
+.form-control{
+    width: 300px !important;
+}

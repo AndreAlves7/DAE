@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from "../stores/user.js"
-
-import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 
 const router = createRouter({
@@ -15,15 +13,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/DashboardView.vue')
     },
     {
       path: '/dashboard',
@@ -62,6 +52,36 @@ const router = createRouter({
       path: '/updatepackage/:id',
       name: 'UpdatePackage',
       component: () => import('../views/logistics/UpdatePackageView.vue'),
+    },
+    {
+      path: '/createpackage',
+      name: 'CreatePackage',
+      component: () => import('../views/logistics/CreatePackageView.vue'),
+    },
+    { 
+      path: '/createsensor',
+      name: 'CreateSensor',
+      component: () => import('../views/logistics/CreateSensorView.vue'),
+    } ,
+    {
+      path: '/viewsensors',
+      name: 'ViewSensors',
+      component: () => import('../views/logistics/ViewSensorsView.vue')
+    },    
+    {
+      path: '/sensorReadings/:sensorId',
+      name: 'SensorReadings',
+      component: () => import('../views/logistics/SensorReadingsView.vue')
+    },  
+    {
+      path: '/importreadings',
+      name: 'ImportReadings',
+      component: () => import('../views/supplier/ImportReadingsView.vue')
+    },
+    {
+      path: '/updatesensor/:id',
+      name: 'UpdateSensor',
+      component: () => import('../views/logistics/UpdateSensorView.vue'),
     }
   ]
 })
@@ -71,7 +91,16 @@ let handlingFirstRoute = true
 
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
-  
+
+  console.log('From:', from.name)
+  console.log('To:', to.name)
+  console.log('User:', userStore.user)
+
+  if (userStore.user == null && to.name !== 'login') {
+    next({ name: 'login' })
+    return
+  }
+
   if (handlingFirstRoute) {
     handlingFirstRoute = false
     await userStore.restoreToken()
@@ -81,6 +110,12 @@ router.beforeEach(async (to, from, next) => {
     next({ name: 'dashboard' })
     return
   }
+
+  if(userStore.user && to.name == 'home'){
+    next({ name: 'dashboard' })
+    return
+  }
+
   next()
 })
 

@@ -14,6 +14,9 @@ public class PackageSensorReadingsDTO {
     private Long id;
     private String value;
     private Date recordingTimeStamp;
+    private String sensorName;
+    private String packageCode;
+
     private Long sensorId;
     private Long packageId;
 

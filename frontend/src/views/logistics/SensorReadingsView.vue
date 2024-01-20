@@ -1,5 +1,6 @@
 <script setup>
 import {  ref, onMounted , watch} from "vue";
+import { useRoute } from 'vue-router';
 import { BIconSearch, BIconTrash } from 'bootstrap-icons-vue'
 import axios from 'axios';
 import DataTable from 'primevue/datatable';
@@ -10,20 +11,16 @@ import router from '@/router';
 // import { FilterMatchMode  } from 'primevue/api';
 
 
-const orders = ref([]);
+const readings = ref([]);
+const selectedReading = ref();
+const route = useRoute();
 
-const products = ref([]);
-const selectedOrder = ref([]);
-
-watch(selectedOrder, () => {
-  console.log(selectedOrder.value)
-}) 
 
 onMounted(async () => {
   try {
-    const response = await axios.get('/orders');
-    orders.value = response.data;
-    console.log(orders.value);
+    const response = await axios.get(`/readings/sensor/${route.params.sensorId}` );
+    readings.value = response.data;
+    console.log(readings.value);
   } catch (error) {
     console.error('Error fetching orders:', error);
   }
@@ -35,41 +32,36 @@ onMounted(async () => {
   <div class="container">
     <div class="col-100">
       <br><br><br>
-      <h1 class="flex-grow">Orders</h1>
-      <button class="btn btn-sm btn-primary" @click="router.push({ name: 'createOrder' })">
-      Create Order
+      <h1 class="flex-grow">Readings of Selected sensor</h1>
+      <button class="btn btn-sm btn-primary" @click="router.push({ name: 'CreateSensor' })">
+      Create Sensor
     </button>
       <br><br>
-      <DataTable v-model:selection="selectedOrder" :value="orders" 
+      <DataTable v-model:selection="selectedReading" :value="readings" 
         stateStorage="session" stateKey="table-orders" paginator :rows="10" filterDisplay="menu"
         selectionMode="single" dataKey="id" :globalFilterFields="['code']">
-        <Column field="code" header="Code" sortable filterMatchMode="contains" style="width: 40%">
+        <Column field="value" header="Value" sortable filterMatchMode="contains" style="width: 40%">
           <template #body="{ data }">
             <div class="flex align-items-center gap-2">
-              <span>{{ data.code }}</span>
+              <span>{{ data.value }}</span>
             </div>
           </template>
         </Column>
-        <Column field="returned" header="Returned" sortable filterMatchMode="contains" style="width: 40%">
+        <Column field="recordingTimestamp" header="Recording Timestamp" sortable filterMatchMode="contains" style="width: 40%">
           <template #body="{ data }">
             <div class="flex align-items-center gap-2">
-              <span>{{ data.returned ? 'Yes' : 'No' }}</span>
+              <span>{{ data.recordingTimeStamp }}</span>
             </div>
           </template>
         </Column>
-        <Column header="Actions" style="width: 20%">
+        <Column field="packageCode" header="Package Code" sortable filterMatchMode="contains" style="width: 40%">
           <template #body="{ data }">
-            <div class="p-2">
-              <button class="btn btn-sm btn-light" @click="editClick(data.id)">
-                <BIconPencil class="bi bi-xs" />
-              </button>
-              <button class="btn btn-sm btn-danger" @click="deleteClick(data)">
-                <BIconTrash class="bi bi-xs" />
-              </button>
+            <div class="flex align-items-center gap-2">
+              <span>{{ data.packageCode }}</span>
             </div>
           </template>
         </Column>
-        <template #empty>No orders found.</template>
+        <template #empty>No readings found.</template>
       </DataTable>
     </div>
   </div>

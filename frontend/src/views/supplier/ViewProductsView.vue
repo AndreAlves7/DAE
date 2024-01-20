@@ -44,9 +44,11 @@ watch(selectedProduct, () => {
             <br>
             <br>
             <br>
+            <h1 class="flex-grow">Products</h1>
             <button class="btn btn-sm btn-primary" @click="router.push({ name: 'createProduct' })">
-      Adicionar Produto
+     Create Product
     </button>
+    <br><br>
     <DataTable v-model:selection="selectedProduct" :value="products" 
         stateStorage="session" stateKey="table-products" paginator :rows="10" filterDisplay="menu"
         selectionMode="single" dataKey="id" :globalFilterFields="['name', 'type']">

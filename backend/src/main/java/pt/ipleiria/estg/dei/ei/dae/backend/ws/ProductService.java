@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @Path("products")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Authenticated
 public class ProductService extends AbstractService<ProductEntity,ProductDTO> {
 
     @EJB

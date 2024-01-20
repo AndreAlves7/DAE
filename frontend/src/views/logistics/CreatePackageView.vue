@@ -1,13 +1,12 @@
 <template>
     <div class="edit-product">
-        <h1>Edit Package</h1>
+        <h1>Create Package</h1>
         <form @submit.prevent="submitForm">
 
             <!-- <div class="form-group">
                 <label for="code">Código</label>
                 <input type="text" id="code" v-model="package_.code" />
             </div>
-             dropdown
             <div class="form-group">
                 <label for="materialType">Tipo de Material</label>
                 <select id="materialType" v-model="package_.materialType">
@@ -27,8 +26,6 @@
                 </select>
             </div>
 
-            
-
             <div class="form-group">
                 <label for="product">Produto</label>
                 <select id="product" v-model="package_.product.id">
@@ -39,10 +36,11 @@
             <div class="form-group">
                 <label for="sensors">Sensores</label>
                 <MultiSelect v-model="package_.sensors" :options="allSensors" :optionLabel="sensor => sensor.name" />
-            </div> -->
+            </div>
 
-            <Toast />
+            
 
+            <button type="submit">Salvar</button> -->
 
             <div class="mb-3">
                 <label for="code">Código</label>
@@ -85,9 +83,6 @@
         
 
       <button type="submit" class="btn btn-primary mb-3">Create</button>
-            
-
-            <!-- <button type="submit">Salvar</button> -->
         </form>
     </div>
 
@@ -99,12 +94,7 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
 import MultiSelect from 'primevue/multiselect';
-import { useToast } from "primevue/usetoast";
-import Toast from 'primevue/toast';
-import Dropdown from 'primevue/dropdown';
 
-
-const toast = useToast();
 
 const allSensors = ref([]);
 
@@ -129,8 +119,8 @@ const route = useRoute();
 const router = useRouter();
 
 onMounted(async () => {
-    const response = await axios.get(`/packages/${route.params.id}`);
-    package_.value = response.data;
+    // const response = await axios.get(`/packages/${route.params.id}`);
+    // package_.value = response.data;
     const response2 = await axios.get(`/products`);
     products.value = response2.data;
 
@@ -139,7 +129,7 @@ onMounted(async () => {
 });
 
 async function submitForm() {
-    const response = await axios.put(`/packages/${route.params.id}`, {
+    const response = await axios.post(`/packages`, {
         code: package_.value.code,
         materialType: package_.value.materialType,
         packageType: package_.value.packageType,
@@ -150,14 +140,8 @@ async function submitForm() {
         id: package_.value.id
     });
 
-    if (response.status === 200) {
-        toast.add({
-            severity: "success",
-            summary: "Success",
-            detail: "Package updated",
-            life: 3000
-        });
-        // router.push({ name: 'ViewPackages'});
+    if (response.status === 201) {
+        router.push({ name: 'ViewPackages'});
     }
 }
 

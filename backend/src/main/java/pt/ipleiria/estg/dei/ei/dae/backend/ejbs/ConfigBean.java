@@ -126,14 +126,17 @@ public class ConfigBean {
     }
 
     private void populateReadings(){
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 20; i++) {
             PackageSensorReadingsEntity readingsEntity = new PackageSensorReadingsEntity();
-            readingsEntity.setValue("");
+
             readingsEntity.setRecordingTimeStamp(new Date());
 
             Random random = new Random();
             int randomNumber = random.nextInt(10) + 1;
             int randomNumber2 = random.nextInt(10) + 1;
+            int randomNumber3 = random.nextInt(1000) + 1;
+
+            readingsEntity.setValue(String.valueOf(randomNumber3));
 
             readingsBean.createReading(readingsEntity, (long)randomNumber , (long)randomNumber2);
         }

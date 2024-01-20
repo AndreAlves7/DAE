@@ -73,4 +73,13 @@ public class SensorBean extends AbstractBean<SensorEntity>{
 
         return new ArrayList<>(query.getResultList());
     }
+
+    public List<PackageSensorEntity> findReadingsBySensorId(Long sensorId) {
+        TypedQuery<PackageSensorEntity> query = em.createQuery(
+                "SELECT ps FROM PackageSensorEntity ps " +
+                        "WHERE ps.sensorEntity.id = :sensorId", PackageSensorEntity.class);
+        query.setParameter("sensorId", sensorId);
+
+        return new ArrayList<>(query.getResultList());
+    }
 }
