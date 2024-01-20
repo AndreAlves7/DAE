@@ -5,6 +5,8 @@ import axios from 'axios';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
+import router from '@/router';
+
 // import { FilterMatchMode  } from 'primevue/api';
 
 
@@ -33,6 +35,10 @@ onMounted(async () => {
   <div class="container">
     <div class="col-100">
       <br><br><br>
+      <button class="btn btn-sm btn-primary" @click="router.push({ name: 'createOrder' })">
+      Create Order
+    </button>
+      <br><br>
       <DataTable v-model:selection="selectedOrder" :value="orders" 
         stateStorage="session" stateKey="table-orders" paginator :rows="10" filterDisplay="menu"
         selectionMode="single" dataKey="id" :globalFilterFields="['code']">

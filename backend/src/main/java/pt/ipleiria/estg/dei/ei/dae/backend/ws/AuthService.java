@@ -4,6 +4,7 @@ import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
@@ -21,7 +22,7 @@ public class AuthService {
     @Inject
     private TokenIssuer issuer;
 
-    @Inject
+    @Context
     private SecurityContext securityContext;
 
     @EJB
@@ -45,9 +46,7 @@ public class AuthService {
             String username = securityContext.getUserPrincipal().getName();
             UserEntity user = userBean.findByUsername(username);
             if(user != null) {
-                UserDTO userDTO = new UserDTO(user.getUsername(), user.getName(),
-                        user.getEmail(), user.getUserType().getCode());
-                return Response.ok(userDTO).build();
+                return Response.ok(UserDTO.from(user)).build();
             }
         }
         return Response.status(Response.Status.NOT_FOUND).entity("ERROR_FINDING_USER").build();
