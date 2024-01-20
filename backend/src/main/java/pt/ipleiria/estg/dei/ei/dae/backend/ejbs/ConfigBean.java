@@ -66,7 +66,7 @@ public class ConfigBean {
             String name = "consumer" + i;
             String password = "123";
             String email = "consumer" + i + "@mail.pt";
-            Consumer consumer = new Consumer(username, name, password, email);
+            Consumer consumer = new Consumer(username, password, name, email);
             userBean.create(consumer);
         }
 
