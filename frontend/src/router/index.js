@@ -81,7 +81,7 @@ const router = createRouter({
      {
       path: '/orderchart/:orderId',
       name: 'OrderChart',
-      component: () => import('../views/charts/OrderChartView.vue')
+      component: () => import('../views/charts/OrderChartVIew.vue')
     },
     {
       path: '/updateOrder/:orderId',
