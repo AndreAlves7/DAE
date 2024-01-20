@@ -74,8 +74,8 @@ public class ConfigBean {
                 "manufacturer1", "manufacturer@mail.pt");
         userBean.create(manufacturer);
 
-        Operator operator = new Operator("operator1", "operator1",
-                "123", "operator@mail.pt");
+        Operator operator = new Operator("operator1", "123",
+                "operator1", "operator@mail.pt");
         userBean.create(operator);
     }
 

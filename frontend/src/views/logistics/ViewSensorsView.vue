@@ -32,6 +32,21 @@ const editClick = (id) => {
   router.push({ name: 'UpdateSensor', params: { id: id } });
 }
 
+
+const deleteClick = async (id) => {
+  //dialog confirm
+  const isConfirm = confirm('Are you sure you want to delete this sensor?');
+  if (!isConfirm) return;
+
+  try {
+    await axios.delete(`/sensors/${id}`);
+  } finally {
+    const response = await axios.get('/sensors');
+    sensors.value = response.data;
+  }
+
+};
+
 </script>
 
 <template>
@@ -59,7 +74,7 @@ const editClick = (id) => {
               <button class="btn btn-sm btn-light me-2" @click="editClick(data.id)">
                 <BIconPencil class="bi bi-xs" />
               </button>
-              <button class="btn btn-sm btn-danger me-2" @click="deleteClick(data)">
+              <button class="btn btn-sm btn-danger me-2" @click="deleteClick(data.id)">
                 <BIconTrash class="bi bi-xs" />
               </button>
               <button class="btn btn-sm btn-info" @click="router.push({ name: 'SensorReadings', params: { sensorId: data.id } })">
