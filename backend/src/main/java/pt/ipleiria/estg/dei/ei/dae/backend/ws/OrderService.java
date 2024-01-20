@@ -7,6 +7,7 @@ import jakarta.ejb.Init;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.jboss.resteasy.specimpl.BuiltResponse;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.OrderDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.PackageDTO;
 import pt.ipleiria.estg.dei.ei.dae.backend.dto.SensorDTO;
@@ -84,10 +85,16 @@ public class OrderService extends AbstractService<OrderEntity, OrderDTO> {
     @RolesAllowed({"Consumer", "Operator"})
     public Response create(OrderDTO orderDTO) {
         Response response;
+        if(orderDTO.getCode() == null || orderDTO.getCode().isEmpty()){
+            return Response.status(Response.Status.EXPECTATION_FAILED)
+                    .entity("No code for entity ")
+                    .build();
+        }
+
         try {
              response = super.create(orderDTO);
             if(orderDTO.getQuantityByPackageID() != null) {
-                orderBean.associatePackagesToOrder(orderDTO.getId(), orderDTO.getQuantityByPackageID());
+                orderBean.associatePackagesToOrder(((OrderDTO)(response).getEntity()).getId(), orderDTO.getQuantityByPackageID());
             }
         } catch (Exception e) {
             response = Response.status(Response.Status.INTERNAL_SERVER_ERROR)

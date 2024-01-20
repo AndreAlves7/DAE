@@ -31,6 +31,22 @@ const editClick = (id) => {
   router.push({ name: 'UpdatePackage', params: { id: id } });
 }
 
+
+
+const deleteClick = async (id) => {
+  //dialog confirm
+  const isConfirm = confirm('Are you sure you want to delete this package?');
+  if (!isConfirm) return;
+
+  try {
+    await axios.delete(`/packages/${id}`);
+  } finally {
+    const response = await axios.get('/packages');
+    packages.value = response.data;
+  }
+
+};
+
 </script>
 
 <template>
@@ -68,7 +84,7 @@ const editClick = (id) => {
               <button class="btn btn-sm btn-light" @click="editClick(data.id)">
                 <BIconPencil class="bi bi-xs" />
               </button>
-              <button class="btn btn-sm btn-danger" @click="deleteClick(data)">
+              <button class="btn btn-sm btn-danger" @click="deleteClick(data.id)">
                 <BIconTrash class="bi bi-xs" />
               </button>
             </div>

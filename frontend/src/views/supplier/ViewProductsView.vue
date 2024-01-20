@@ -35,6 +35,20 @@ watch(selectedProduct, () => {
 }) 
 
 
+const deleteClick = async (id) => {
+  //dialog confirm
+  const isConfirm = confirm('Are you sure you want to delete this product?');
+  if (!isConfirm) return;
+
+  try {
+    await axios.delete(`/products/${id}`);
+  } finally {
+    const response = await axios.get('/products');
+    products.value = response.data;
+  }
+
+};
+
 </script>
 
 <template>

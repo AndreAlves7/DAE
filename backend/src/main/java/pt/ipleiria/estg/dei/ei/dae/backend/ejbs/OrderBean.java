@@ -23,6 +23,7 @@ public class OrderBean extends AbstractBean<OrderEntity>{
     private OrderPackageBean orderPackageLinkBean;
 
     public void associatePackagesToOrder(Long orderId,  Map<Long, Integer> quantityByPackageID) {
+        em.flush();
         OrderEntity order = find(orderId);
 
         if (order == null) {
