@@ -22,7 +22,7 @@
       <input type="file" id="csvFile" class="form-control" ref="fileInputCsv" @change="handleCSVFile">
     </div>
   </div>
-    <button class="btn btn-sm btn-primary" @click="clearFileImput">
+    <button class="btn btn-sm btn-primary" @click="clearFileImputCsv">
       Clear input
     </button>
 </div>
@@ -117,6 +117,12 @@ const handleCSVFile = async (event) => {
 const clearFileImput = () => {
   if (fileInputXml.value) {
       fileInputXml.value.value = '';
+  }
+}
+
+const clearFileImputCsv = () => {
+  if (fileInputCsv.value) {
+      fileInputCsv.value.value = '';
   }
 }
 
