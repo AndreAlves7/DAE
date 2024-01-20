@@ -12,8 +12,8 @@ import pt.ipleiria.estg.dei.ei.dae.backend.security.Authenticated;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@DenyAll
-@Authenticated
+//@DenyAll
+//@Authenticated
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public abstract class AbstractService<Entity,DTO> {
