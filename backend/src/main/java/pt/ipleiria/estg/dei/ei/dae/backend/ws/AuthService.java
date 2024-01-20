@@ -46,9 +46,7 @@ public class AuthService {
             String username = securityContext.getUserPrincipal().getName();
             UserEntity user = userBean.findByUsername(username);
             if(user != null) {
-                UserDTO userDTO = new UserDTO(user.getUsername(), user.getName(),
-                        user.getEmail(), user.getUserType().getCode());
-                return Response.ok(userDTO).build();
+                return Response.ok(UserDTO.from(user)).build();
             }
         }
         return Response.status(Response.Status.NOT_FOUND).entity("ERROR_FINDING_USER").build();
